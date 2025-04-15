@@ -1,0 +1,264 @@
+# Updates a DocumentCollection
+
+```http
+PATCH https://api.getzep.com/api/v2/collections/{collectionName}
+Content-Type: application/json
+```
+
+Updates a DocumentCollection
+
+
+
+## Path Parameters
+
+- CollectionName (required): Name of the Document Collection
+
+## Response Body
+
+- 200: OK
+- 400: Bad Request
+- 401: Unauthorized
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/collectionName \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.update_collection(
+    collection_name="collectionName",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.updateCollection("collectionName");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.UpdateCollection(
+	context.TODO(),
+	"collectionName",
+	&v2.UpdateDocumentCollectionRequest{},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/:collectionName \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.update_collection(
+    collection_name="collectionName",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.updateCollection("collectionName");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.UpdateCollection(
+	context.TODO(),
+	"collectionName",
+	&v2.UpdateDocumentCollectionRequest{},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/:collectionName \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.update_collection(
+    collection_name="collectionName",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.updateCollection("collectionName");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.UpdateCollection(
+	context.TODO(),
+	"collectionName",
+	&v2.UpdateDocumentCollectionRequest{},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/:collectionName \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.update_collection(
+    collection_name="collectionName",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.updateCollection("collectionName");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.UpdateCollection(
+	context.TODO(),
+	"collectionName",
+	&v2.UpdateDocumentCollectionRequest{},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/:collectionName \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.update_collection(
+    collection_name="collectionName",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.updateCollection("collectionName");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.UpdateCollection(
+	context.TODO(),
+	"collectionName",
+	&v2.UpdateDocumentCollectionRequest{},
+)
+
+```

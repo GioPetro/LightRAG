@@ -1,0 +1,194 @@
+# Get Node
+
+```http
+GET https://api.getzep.com/api/v2/graph/node/{uuid}
+```
+
+Returns a specific node by its UUID.
+
+
+
+## Path Parameters
+
+- Uuid (required): Node UUID
+
+## Response Body
+
+- 200: Node
+- 400: Bad Request
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/graph/node/uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.node.get(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.node.get("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Node.Get(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/graph/node/:uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.node.get(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.node.get("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Node.Get(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/graph/node/:uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.node.get(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.node.get("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Node.Get(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/graph/node/:uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.node.get(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.node.get("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Node.Get(
+	context.TODO(),
+	"uuid",
+)
+
+```

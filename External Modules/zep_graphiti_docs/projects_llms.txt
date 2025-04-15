@@ -1,0 +1,27 @@
+# Projects
+
+<Tip>
+  API keys are specific to a project. You can create multiple keys for a single project. Visit 
+
+  `Project Settings`
+
+   in the Zep dashboard to manage your API keys.
+</Tip>
+
+Projects bundle elements like Users, Sessions, Groups, Knowledge Graphs, and settings, helping you organize data by service, environment (e.g., development or production), or other relevant criteria.
+
+## Creating a Project
+
+When you sign up for Zep, your first project is automatically created. You'll be asked to configure a few project-specific settings (details below).
+If you need more projects, you can create them anytime through the <a href="https://app.getzep.com/projects/create" rel="nofollow">Zep Web App</a>.
+
+<Frame>
+  <img alt="Create a new project" src="file:381786f4-a0f6-4b1e-a581-d204e0c1e7d5" />
+</Frame>
+
+### Project Essentials
+
+* Unique Project Name: Choose a unique name for your project.
+* Description (Optional): Optionally add a brief description of your project.
+
+> **You can modify your project settings later from the Dashboard.**

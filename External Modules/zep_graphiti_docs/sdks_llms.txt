@@ -1,0 +1,121 @@
+# SDK Installation
+
+> Zep provides SDKs for Python, TypeScript, and Go.
+
+<Tip>
+  Use our [llms.txt](https://llmstxt.org/) files to summarize our docs for LLMs! ([short .txt](/llms.txt), [long .txt](/llms-full.txt))
+</Tip>
+
+### Python
+
+<Tabs>
+  <Tab title="pip">
+    ```Bash
+    pip install zep-cloud
+    ```
+  </Tab>
+
+  <Tab title="poetry">
+    ```Bash
+    poetry add zep-cloud
+    ```
+  </Tab>
+</Tabs>
+
+### TypeScript
+
+<Tabs>
+  <Tab title="npm">
+    ```Bash
+    npm install @getzep/zep-cloud
+    ```
+  </Tab>
+
+  <Tab title="yarn">
+    ```Bash
+    yarn add @getzep/zep-cloud
+    ```
+  </Tab>
+
+  <Tab title="pnpm">
+    ```Bash
+    pnpm install @getzep/zep-cloud
+    ```
+  </Tab>
+</Tabs>
+
+### Go
+
+```Bash
+go get github.com/getzep/zep-go/v2
+```
+
+## Initialize Client
+
+<Tip>
+  API keys are specific to a project. You can create multiple keys for a single project. Visit 
+
+  `Project Settings`
+
+   in the Zep dashboard to manage your API keys.
+</Tip>
+
+<Tabs group="sdks">
+  <Tab title="Python" group-key="python">
+    ```python
+    import os
+    from zep_cloud.client import Zep
+
+    API_KEY = os.environ.get('ZEP_API_KEY')
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+    ```
+
+    <Info>
+      **The Python SDK Supports Async Use**
+
+      In order to use async client, you will need to import AsyncZep instead of Zep.
+
+      ```python
+      from zep_cloud.client import AsyncZep
+      ```
+    </Info>
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    API_KEY = process.env.ZEP_API_KEY
+
+    const zep = new ZepClient({ apiKey: API_KEY });
+    ```
+  </Tab>
+
+  <Tab title="Go" group-key="go">
+    ```go
+    import (
+        "github.com/getzep/zep-go/v2"
+        zepclient "github.com/getzep/zep-go/v2/client"
+        "github.com/getzep/zep-go/v2/option"
+    )
+
+    client := zepclient.NewClient(
+        option.WithAPIKey("<YOUR_API_KEY>"),
+    )
+    ```
+  </Tab>
+</Tabs>
+
+## SDK Feature Support
+
+Some SDKs may have limited functionality. The table below shows which features are supported by each SDK.
+
+|                            | Python | TypeScript | Go |
+| -------------------------- | ------ | ---------- | -- |
+| Memory Operations          | ✓      | ✓          | ✓  |
+| Graph Operations           | ✓      | ✓          | ✓  |
+| Structured Data Extraction | ✓      | ✓          | -  |
+| Dialog Classification      | ✓      | ✓          | ✓  |

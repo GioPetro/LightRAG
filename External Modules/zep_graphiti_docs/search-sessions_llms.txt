@@ -1,0 +1,127 @@
+# Search sessions for the specified query.
+
+```http
+POST https://api.getzep.com/api/v2/sessions/search
+Content-Type: application/json
+```
+
+Deprecated API: Search sessions for the specified query.
+
+
+
+## Query Parameters
+
+- Limit (optional): The maximum number of search results to return. Defaults to None (no limit).
+
+## Response Body
+
+- 200: A SessionSearchResponse object representing the search results.
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/search \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "text": "text"
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.search_sessions(
+    text="text",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.searchSessions({
+    text: "text"
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.SearchSessions(
+	context.TODO(),
+	&v2.SessionSearchQuery{
+		Text: "text",
+	},
+)
+
+```
+
+```shell
+curl -X POST "https://api.getzep.com/api/v2/sessions/search?limit=0" \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "text": "string"
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.search_sessions(
+    text="text",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.searchSessions({
+    text: "text"
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.SearchSessions(
+	context.TODO(),
+	&v2.SessionSearchQuery{
+		Text: "text",
+	},
+)
+
+```

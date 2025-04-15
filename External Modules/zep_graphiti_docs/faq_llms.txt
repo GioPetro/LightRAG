@@ -1,0 +1,14 @@
+# FAQ
+
+<Accordion title="Is there a free version of Zep Cloud?">
+  Yes - Zep offers a free tier. See [Pricing](https://www.getzep.com/pricing) for more information.
+</Accordion>
+
+<Accordion title="What is the API URL for Zep Cloud?">
+  The API URL for Zep Cloud is `https://api.getzep.com`. Note that you do not need to specify the API URL when using the Cloud SDKs.
+  If a service requests the Zep URL, it is possible it's only compatible with the Zep Community Edition service.
+</Accordion>
+
+<Accordion title="Does Zep Cloud support multiple spoken languages?">
+  We have official multilingual support on our roadmap, enabling the creation of graphs in a user’s own language. Currently, graphs are not explicitly created in the user’s language. However, Zep should work well today with any language, provided you're using a multilingual LLM and your own prompts explicitly state that responses to the user should be in their language.
+</Accordion>

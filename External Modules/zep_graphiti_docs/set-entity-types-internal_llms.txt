@@ -1,0 +1,234 @@
+# Set Entity Types
+
+```http
+PUT https://api.getzep.com/api/v2/entity-types
+Content-Type: application/json
+```
+
+Sets the entity types for a project, replacing any existing ones.
+
+
+
+## Response Body
+
+- 200: Entity types set successfully
+- 400: Bad Request
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X PUT https://api.getzep.com/api/v2/entity-types \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "entity_types": [
+    {
+      "description": "description",
+      "name": "name"
+    }
+  ]
+}'
+```
+
+```python
+from zep_cloud import EntityType
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.set_entity_types_internal(
+    entity_types=[
+        EntityType(
+            description="description",
+            name="name",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.setEntityTypesInternal({
+    entityTypes: [{
+            description: "description",
+            name: "name"
+        }]
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.SetEntityTypesInternal(
+	context.TODO(),
+	&v2.EntityTypeRequest{
+		EntityTypes: []*v2.EntityType{
+			&v2.EntityType{
+				Description: "description",
+				Name:        "name",
+			},
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PUT https://api.getzep.com/api/v2/entity-types \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "entity_types": [
+    {
+      "description": "string",
+      "name": "string"
+    }
+  ]
+}'
+```
+
+```python
+from zep_cloud import EntityType
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.set_entity_types_internal(
+    entity_types=[
+        EntityType(
+            description="description",
+            name="name",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.setEntityTypesInternal({
+    entityTypes: [{
+            description: "description",
+            name: "name"
+        }]
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.SetEntityTypesInternal(
+	context.TODO(),
+	&v2.EntityTypeRequest{
+		EntityTypes: []*v2.EntityType{
+			&v2.EntityType{
+				Description: "description",
+				Name:        "name",
+			},
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PUT https://api.getzep.com/api/v2/entity-types \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "entity_types": [
+    {
+      "description": "string",
+      "name": "string"
+    }
+  ]
+}'
+```
+
+```python
+from zep_cloud import EntityType
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.set_entity_types_internal(
+    entity_types=[
+        EntityType(
+            description="description",
+            name="name",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.setEntityTypesInternal({
+    entityTypes: [{
+            description: "description",
+            name: "name"
+        }]
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.SetEntityTypesInternal(
+	context.TODO(),
+	&v2.EntityTypeRequest{
+		EntityTypes: []*v2.EntityType{
+			&v2.EntityType{
+				Description: "description",
+				Name:        "name",
+			},
+		},
+	},
+)
+
+```

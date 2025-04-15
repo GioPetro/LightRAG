@@ -1,0 +1,209 @@
+# Updates the metadata of a message.
+
+```http
+PATCH https://api.getzep.com/api/v2/sessions/{sessionId}/messages/{messageUUID}
+Content-Type: application/json
+```
+
+Updates the metadata of a message.
+
+
+
+## Path Parameters
+
+- SessionId (required): The ID of the session.
+- MessageUuid (required): The UUID of the message.
+
+## Response Body
+
+- 200: The updated message.
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/sessionId/messages/messageUUID \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "key": "value"
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_message_metadata(
+    session_id="sessionId",
+    message_uuid="messageUUID",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateMessageMetadata("sessionId", "messageUUID", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateMessageMetadata(
+	context.TODO(),
+	"sessionId",
+	"messageUUID",
+	&v2.ModelsMessageMetadataUpdate{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/:sessionId/messages/:messageUUID \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "string": {}
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_message_metadata(
+    session_id="sessionId",
+    message_uuid="messageUUID",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateMessageMetadata("sessionId", "messageUUID", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateMessageMetadata(
+	context.TODO(),
+	"sessionId",
+	"messageUUID",
+	&v2.ModelsMessageMetadataUpdate{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/:sessionId/messages/:messageUUID \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "string": {}
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_message_metadata(
+    session_id="sessionId",
+    message_uuid="messageUUID",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateMessageMetadata("sessionId", "messageUUID", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateMessageMetadata(
+	context.TODO(),
+	"sessionId",
+	"messageUUID",
+	&v2.ModelsMessageMetadataUpdate{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```

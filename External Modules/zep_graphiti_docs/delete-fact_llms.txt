@@ -1,0 +1,153 @@
+# Delete a fact for the given UUID
+
+```http
+DELETE https://api.getzep.com/api/v2/facts/{factUUID}
+```
+
+Deprecated API: delete a fact
+
+
+
+## Path Parameters
+
+- FactUuid (required): Fact UUID
+
+## Response Body
+
+- 200: Deleted
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/facts/factUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.delete_fact(
+    fact_uuid="factUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.deleteFact("factUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.DeleteFact(
+	context.TODO(),
+	"factUUID",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/facts/:factUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.delete_fact(
+    fact_uuid="factUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.deleteFact("factUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.DeleteFact(
+	context.TODO(),
+	"factUUID",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/facts/:factUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.delete_fact(
+    fact_uuid="factUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.deleteFact("factUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.DeleteFact(
+	context.TODO(),
+	"factUUID",
+)
+
+```

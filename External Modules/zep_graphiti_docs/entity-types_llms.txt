@@ -1,0 +1,536 @@
+# Entity Types
+
+Zep enables the use of rich, domain-specific data structures through Entity Types, replacing generic graph nodes with detailed models. Zep classifies newly created nodes as one of the default or custom entity types or leaves them unclassified. For example, a node representing a preference is classified as a Preference node, and attributes specific to that type are automatically populated. You may restrict graph queries to nodes of a specific type, such as Preference.
+
+The default entity types are applied to all nodes by default, but you may define additional custom types as needed.
+
+Each node is classified as a single entity type only. Multiple classifications are not supported.
+
+## Default Entity Types
+
+The default entity types are:
+
+* **User**: A human that is part of the current chat thread.
+* **Preference**: One of the User's preferences.
+* **Procedure**: A multi-step instruction informing the agent how to behave (e.g. 'When the user asks for code, respond only with code snippets followed by a bullet point explanation')
+
+Default entity types only apply to user graphs (not group graphs). All nodes in any user graph will be classified into one of these types or none.
+
+When we add data to the graph, default entity types are automatically created:
+
+<CodeBlocks>
+  ```python
+  from zep_cloud.types import Message
+
+  message = {"role": "John Doe", "role_type": "user", "content": "I really like pop music, and I don't like metal"}
+
+  client.memory.add(session_id=session_id, messages=[Message(**message)])
+  ```
+
+  ```typescript
+  import { RoleType } from "@getzep/zep-cloud/api/types";
+
+  const messages = [{ role: "John Doe", roleType: RoleType.UserRole, content: "I really like pop music, and I don't like metal" }];
+
+  await client.memory.add(sessionId, {messages: messages});
+  ```
+
+  ```go
+  userRole := "John Doe"
+  messages := []*zep.Message{
+  	{
+  		Role:     &userRole,
+  		Content:  "I really like pop music, and I don't like metal",
+  		RoleType: "user",
+  	},
+  }
+
+  // Add the messages to the graph
+  _, err = client.Memory.Add(
+  	context.TODO(),
+  	sessionID,
+  	&zep.AddMemoryRequest{
+  		Messages: messages,
+  	},
+  )
+  if err != nil {
+  	log.Fatal("Error adding messages:", err)
+  }
+  ```
+</CodeBlocks>
+
+When searching nodes in the graph, you can provide a list of types to filter the search by. The provided types are ORed together. Search results will only include nodes that satisfy one of the provided types:
+
+<CodeBlocks>
+  ```python
+  from zep_cloud.types import SearchFilters
+
+  search_results = client.graph.search(
+      user_id=user_id,
+      query="the user's music preferences",
+      scope="nodes",
+      search_filters=SearchFilters(
+          node_labels=["Preference"]
+      )
+  )
+  for i, node in enumerate(search_results.nodes):
+      preference = node.attributes
+      print(f"Preference {i+1}:{preference}")
+  ```
+
+  ```typescript
+  const searchResults = await client.graph.search({
+    userId: userId,
+    query: "the user's music preferences",
+    scope: "nodes",
+    searchFilters: {
+      nodeLabels: ["Preference"],
+    },
+  });
+
+  if (searchResults.nodes && searchResults.nodes.length > 0) {
+    for (let i = 0; i < searchResults.nodes.length; i++) {
+      const node = searchResults.nodes[i];
+      const preference = node.attributes;
+      console.log(`Preference ${i + 1}: ${JSON.stringify(preference)}`);
+    }
+  }
+  ```
+
+  ```go
+  searchFilters := zep.SearchFilters{NodeLabels: []string{"Preference"}}
+  searchResults, err := client.Graph.Search(
+  	ctx,
+  	&zep.GraphSearchQuery{
+  		UserID:        zep.String(userID),
+  		Query:         "the user's music preferences",
+  		Scope:         zep.GraphSearchScopeNodes.Ptr(),
+  		SearchFilters: &searchFilters,
+  	},
+  )
+  if err != nil {
+  	log.Fatal("Error searching graph:", err)
+  }
+
+  for i, node := range searchResults.Nodes {
+  	// Convert attributes map to JSON for pretty printing
+  	attributesJSON, err := json.MarshalIndent(node.Attributes, "", "  ")
+  	if err != nil {
+  		log.Fatal("Error marshaling attributes:", err)
+  	}
+  	
+  	fmt.Printf("Preference %d:\n%s\n\n", i+1, string(attributesJSON))
+  }
+  ```
+</CodeBlocks>
+
+```text
+Preference 1: {'category': 'Music', 'description': 'Pop Music is a genre of music characterized by its catchy melodies and widespread appeal.', 'labels': ['Entity', 'Preference']}
+Preference 2: {'category': 'Music', 'description': 'Metal Music is a genre of music characterized by its heavy sound and complex compositions.', 'labels': ['Entity', 'Preference']}
+```
+
+## Custom Entity Types
+
+In addition to the default entity types, you can specify your own custom entity types. You need to provide a description of the type and a description for each of the fields. Note that the syntax for this is different for each language:
+
+<Warning>
+  When creating custom entity types, avoid using the following attribute names (including in Go struct tags), as they conflict with default node attributes: `uuid`, `name`, `group_id`, `name_embedding`, `summary`, and `created_at`.
+</Warning>
+
+<CodeBlocks>
+  ```python
+  from pydantic import Field
+  from zep_cloud.external_clients.ontology import EntityModel, EntityText, EntityInt
+
+  class ApartmentComplex(EntityModel):
+      """
+      Represents an apartment complex.
+      """
+      complex_name: EntityText = Field(
+          description="The name of the apartment complex",
+          default=None
+      )
+      price_of_rent: EntityInt = Field(
+          description="The price of rent for the apartment complex",
+          default=None
+      )
+
+  class Restaurant(EntityModel):
+      """
+      Represents a restaurant.
+      """
+      restaurant_name: EntityText = Field(
+          description="The name of the restaurant",
+          default=None
+      )
+  ```
+
+  ```typescript
+  import { EntityData, entityFields, EntityType } from "@getzep/zep-cloud/wrapper/ontology";
+
+  const apartmentComplexSchema: EntityType = {
+    description: "Represents an apartment complex.",
+    fields: {
+        complex_name: entityFields.text("The name of the apartment complex"),
+        price_of_rent: entityFields.integer("The price of rent for the apartment complex"),
+    },
+  };
+
+  const restaurantSchema: EntityType = {
+      description: "Represents a restaurant.",
+      fields: {
+          restaurant_name: entityFields.text("The name of the restaurant"),
+      },
+  };
+
+  type ApartmentComplex = EntityData<typeof apartmentComplexSchema>;
+  type Restaurant = EntityData<typeof restaurantSchema>;
+  ```
+
+  ```go
+  type ApartmentComplex struct {
+      zep.BaseEntity  `name:"ApartmentComplex" description:"Represents an apartment complex."`
+      ComplexName        string  `description:"The name of the apartment complex" json:"complex_name,omitempty"`
+      PriceOfRent       int `description:"The price of rent for the apartment complex" json:"price_of_rent,omitempty"`
+  }
+
+  type Restaurant struct {
+      zep.BaseEntity  `name:"Restaurant" description:"Represents a restaurant."`
+      RestaurantName        string  `description:"The name of the restaurant" json:"restaurant_name,omitempty"`
+  }
+  ```
+</CodeBlocks>
+
+You can then set these as the custom entity types for your current [Zep project](/projects):
+
+<CodeBlocks>
+  ```python
+  client.graph.set_entity_types(
+      entities={
+          "ApartmentComplex": ApartmentComplex,
+          "Restaurant": Restaurant
+      }
+  )
+  ```
+
+  ```typescript
+  await client.graph.setEntityTypes({
+    ApartmentComplex: apartmentComplexSchema,
+    Restaurant: restaurantSchema,
+  });
+  ```
+
+  ```go
+  _, err = client.Graph.SetEntityTypes(
+      ctx,
+      []zep.EntityDefinition{
+          ApartmentComplex{},
+          Restaurant{},
+      },
+  )
+  if err != nil {
+      log.Fatalf("Error setting entity types with base entity: %v", err)
+  }
+  ```
+</CodeBlocks>
+
+Now, when we add data to the graph, new nodes are classified into exactly one of the overall set of entity types or none:
+
+<CodeBlocks>
+  ```python
+  from zep_cloud.types import Message
+  import json
+
+  messages = [
+      {"role": "John Doe", "role_type": "user", "content": "The last apartment complex I lived in was Oasis"},
+      {"role": "John Doe", "role_type": "user", "content": "There were really great restaurants near Oasis, such as The Biscuit"}
+  ]
+
+  apartment_complexes = [
+      {"name": "Oasis", "description": "An apartment complex", "price_of_rent": 1050},
+      {"name": "Sanctuary", "description": "An apartment complex", "price_of_rent": 1100},
+      {"name": "Harbor View", "description": "An apartment complex", "price_of_rent": 1250},
+      {"name": "Greenwood", "description": "An apartment complex", "price_of_rent": 950},
+      {"name": "Skyline", "description": "An apartment complex", "price_of_rent": 1350}
+  ]
+
+  for apartment_complex in apartment_complexes:
+      client.graph.add(
+          user_id=user_id,
+          type="json", 
+          data=json.dumps(apartment_complex)
+      )
+
+  client.memory.add(session_id=session_id, messages=[Message(**m) for m in messages])
+  ```
+
+  ```typescript
+  import { RoleType } from "@getzep/zep-cloud/api/types";
+
+  const messages = [
+    { role: "John Doe", roleType: RoleType.UserRole, content: "The last apartment complex I lived in was Oasis" },
+    { role: "John Doe", roleType: RoleType.UserRole, content: "There were really great restaurants near Oasis, such as The Biscuit" }
+  ];
+
+  const apartmentComplexes = [
+    { name: "Oasis", description: "An apartment complex", price_of_rent: 1050 },
+    { name: "Sanctuary", description: "An apartment complex", price_of_rent: 1100 },
+    { name: "Harbor View", description: "An apartment complex", price_of_rent: 1250 },
+    { name: "Greenwood", description: "An apartment complex", price_of_rent: 950 },
+    { name: "Skyline", description: "An apartment complex", price_of_rent: 1350 }
+  ];
+
+  for (const apartmentComplex of apartmentComplexes) {
+    await client.graph.add({
+        userId: userId,
+        type: "json",
+        data: JSON.stringify(apartmentComplex)
+    });
+  }
+
+  await client.memory.add(sessionId, {messages: messages});
+  ```
+
+  ```go
+  userRole := "John Doe"
+  messages := []*zep.Message{
+      {
+          Role:     &userRole,
+          Content:  "The last apartment complex I lived in was Oasis",
+          RoleType: "user",
+      },
+      {
+          Role:     &userRole,
+          Content:  "There were really great restaurants near Oasis, such as The Biscuit",
+          RoleType: "user",
+      },
+  }
+
+  type ApartmentComplexJSON struct {
+      ComplexName         string `json:"name"`
+      Description  string `json:"description"`
+      PriceOfRent  int    `json:"price_of_rent"`
+  }
+
+  apartmentComplexes := []ApartmentComplexJSON{
+      {
+          ComplexName: "Oasis",
+          Description: "An apartment complex",
+          PriceOfRent: 1050,
+      },
+      {
+          ComplexName: "Sanctuary",
+          Description: "An apartment complex",
+          PriceOfRent: 1100,
+      },
+      {
+          ComplexName: "Harbor View",
+          Description: "An apartment complex",
+          PriceOfRent: 1250,
+      },
+      {
+          ComplexName: "Greenwood",
+          Description: "An apartment complex",
+          PriceOfRent: 950,
+      },
+      {
+          ComplexName: "Skyline",
+          Description: "An apartment complex",
+          PriceOfRent: 1350,
+      },
+  }
+
+  // Loop through each apartment complex and add it to the graph
+  for _, apt := range apartmentComplexes {
+      jsonBytes, err := json.Marshal(apt)
+      if err != nil {
+          log.Fatalf("Error marshaling apartment complex %s: %v", apt.ComplexName, err)
+      }
+
+      jsonString := string(jsonBytes)
+
+      _, err = client.Graph.Add(context.TODO(), &zep.AddDataRequest{
+          UserID: &userID,
+          Type:   zep.GraphDataTypeJSON.Ptr(),
+          Data:   &jsonString,
+      })
+      if err != nil {
+          log.Fatalf("Error adding apartment complex %s to graph: %v", apt.ComplexName, err)
+      }
+  }
+
+  // Add the messages to the graph
+  _, err = client.Memory.Add(
+      context.TODO(),
+      sessionID,
+      &zep.AddMemoryRequest{
+          Messages: messages,
+      },
+  )
+  if err != nil {
+      log.Fatal("Error adding messages:", err)
+  }
+  ```
+</CodeBlocks>
+
+Now that we have created a graph with custom entity types, we can filter node search results by entity type. In this case, we are able to get a structured answer (an `ApartmentComplex` object) to an open ended query (the apartment complex the user previously resided in) where the answer required fusing together the chat history and the JSON data:
+
+<CodeBlocks>
+  ```python
+  from zep_cloud.types import SearchFilters
+
+  search_results = client.graph.search(
+      user_id=user_id,
+      query="The apartment complex the user previously resided in",
+      scope="nodes",
+      limit=1,
+      search_filters=SearchFilters(
+          node_labels=["ApartmentComplex"]
+      )
+  )
+  previous_apartment_complex = ApartmentComplex(**search_results.nodes[0].attributes)
+  print(f"{previous_apartment_complex}")
+  ```
+
+  ```typescript
+  const searchResults = await client.graph.search({
+    userId: userId,
+    query: "The apartment complex the user previously resided in",
+    scope: "nodes",
+    limit: 1,
+    searchFilters: {
+      nodeLabels: ["ApartmentComplex"],
+    },
+  });
+
+  if (searchResults.nodes && searchResults.nodes.length > 0) {
+    const previousApartmentComplex = searchResults.nodes[0].attributes as ApartmentComplex;
+    console.log(`Previous Apartment Complex: ${JSON.stringify(previousApartmentComplex)}`);
+  }
+  ```
+
+  ```go
+  searchFilters := zep.SearchFilters{NodeLabels: []string{"ApartmentComplex"}}
+  searchResults, err := client.Graph.Search(
+      ctx,
+      &zep.GraphSearchQuery{
+          UserID:        zep.String(userID),
+          Query:         "The apartment complex the user previously resided in",
+          Scope:         zep.GraphSearchScopeNodes.Ptr(),
+          Limit:         zep.Int(1),
+          SearchFilters: &searchFilters,
+      },
+  )
+  if err != nil {
+      log.Fatal("Error searching graph:", err)
+  }
+
+  // Unpack search results into ApartmentComplex struct using JSON marshaling/unmarshaling
+  var apartmentComplex ApartmentComplex
+
+  // Convert attributes map to JSON
+  attributesJSON, err := json.Marshal(searchResults.Nodes[0].Attributes)
+  if err != nil {
+      log.Fatal("Error marshaling attributes:", err)
+  }
+
+  // Unmarshal JSON into ApartmentComplex struct
+  err = json.Unmarshal(attributesJSON, &apartmentComplex)
+  if err != nil {
+      log.Fatal("Error unmarshaling into ApartmentComplex:", err)
+  }
+
+  fmt.Printf("Previous Apartment Complex: %+v\n", apartmentComplex)
+  ```
+</CodeBlocks>
+
+```text
+complex_name='Oasis' price_of_rent=1050
+```
+
+The search filter ORs together the provided types, so search results will only include nodes that satisfy one of the provided types.
+
+You can also retrieve all nodes of a specific type:
+
+<CodeBlocks>
+  ```python
+  nodes = client.graph.node.get_by_user_id(user_id)
+  for node in nodes:
+      if "ApartmentComplex" in node.labels:
+          apartment_complex = ApartmentComplex(**node.attributes)
+          print(f"{apartment_complex}")  
+  ```
+
+  ```typescript
+  const nodes = await client.graph.node.getByUserId(userId);
+
+  if (nodes) {
+    for (const node of nodes) {
+      if (node.labels && node.labels.includes("ApartmentComplex")) {
+        const apartmentComplex = node.attributes as ApartmentComplex;
+        console.log(`Apartment Complex: ${JSON.stringify(apartmentComplex)}`);
+      }
+    }
+  }
+  ```
+
+  ```go
+  nodes, err := client.Graph.Node.GetByUserID(
+      context.Background(),
+      userID,
+  )
+  if err != nil {
+      log.Fatal("Error getting nodes by user ID:", err)
+  }
+
+  // Helper function to check if a label exists in the slice
+  func containsLabel(labels []string, target string) bool {
+  	for _, label := range labels {
+  		if label == target {
+  			return true
+  		}
+  	}
+  	return false
+  }
+
+  // Process nodes
+  for _, node := range nodes {
+      if containsLabel(node.Labels, "ApartmentComplex") {
+          apartmentComplex := &ApartmentComplex{}
+          
+          // Convert map to JSON bytes
+          attributesJSON, err := json.Marshal(node.Attributes)
+          if err != nil {
+              log.Fatal("Error marshaling attributes:", err)
+          }
+
+          // Unmarshal into ApartmentComplex
+          err = json.Unmarshal(attributesJSON, apartmentComplex)
+          if err != nil {
+              log.Fatal("Error unmarshaling node attributes:", err)
+          }
+          fmt.Printf("%+v\n", apartmentComplex)
+      }
+  }
+  ```
+</CodeBlocks>
+
+```text
+complex_name='Oasis' price_of_rent=1050
+complex_name='Sanctuary' price_of_rent=1100
+complex_name='Greenwood' price_of_rent=950
+complex_name='Skyline' price_of_rent=1350
+complex_name='Harbor View' price_of_rent=1250
+```
+
+### Important Notes/Tips
+
+Some notes regarding custom entity types:
+
+* The `set_entity_types` method overwrites any previously defined custom entity types, so the set of custom entity types is always the list of types provided in the last `set_entity_types` method call
+* The overall set of entity types for a project includes both the custom entity types you set and the default entity types
+* You can overwrite the default entity types by providing custom entity types with the same names
+* Changing the custom entity types will not update previously created nodes. The classification and attributes of existing nodes will stay the same. The only thing that can change existing classifications or attributes is adding data that provides new information.
+* When creating custom entity types, avoid using the following attribute names (including in Go struct tags), as they conflict with default node attributes: `uuid`, `name`, `group_id`, `name_embedding`, `summary`, and `created_at`
+* **Tip**: Design custom entity types to represent entities/nouns as opposed to relationships/verbs. Your type might be represented in the graph as an edge more often than as a node
+* **Tip**: If you have overlapping entity types (e.g. 'Hobby' and 'Hiking'), you can prioritize one type over another by mentioning which to prioritize in the entity type descriptions

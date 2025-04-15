@@ -1,0 +1,140 @@
+# Get Entity Types
+
+```http
+GET https://api.getzep.com/api/v2/entity-types
+```
+
+Returns all entity types for a project.
+
+
+
+## Response Body
+
+- 200: The list of entity types.
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/entity-types \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.list_entity_types()
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.listEntityTypes();
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.ListEntityTypes(
+	context.TODO(),
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/entity-types \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.list_entity_types()
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.listEntityTypes();
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.ListEntityTypes(
+	context.TODO(),
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/entity-types \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.list_entity_types()
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.listEntityTypes();
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.ListEntityTypes(
+	context.TODO(),
+)
+
+```

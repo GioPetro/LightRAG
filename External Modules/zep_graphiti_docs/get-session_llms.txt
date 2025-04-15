@@ -1,0 +1,153 @@
+# Get Session
+
+```http
+GET https://api.getzep.com/api/v2/sessions/{sessionId}
+```
+
+Returns a session.
+
+
+
+## Path Parameters
+
+- SessionId (required): The unique identifier of the session.
+
+## Response Body
+
+- 200: The session with the specified ID.
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/sessions/sessionId \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.get_session(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.getSession("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.GetSession(
+	context.TODO(),
+	"sessionId",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/sessions/:sessionId \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.get_session(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.getSession("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.GetSession(
+	context.TODO(),
+	"sessionId",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/sessions/:sessionId \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.get_session(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.getSession("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.GetSession(
+	context.TODO(),
+	"sessionId",
+)
+
+```

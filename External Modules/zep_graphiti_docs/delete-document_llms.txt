@@ -1,0 +1,254 @@
+# Delete Document from a DocumentCollection by UUID
+
+```http
+DELETE https://api.getzep.com/api/v2/collections/{collectionName}/documents/uuid/{documentUUID}
+```
+
+Delete specified Document from a DocumentCollection.
+
+
+
+## Path Parameters
+
+- CollectionName (required): Name of the Document Collection
+- DocumentUuid (required): UUID of the Document to be deleted
+
+## Response Body
+
+- 200: OK
+- 400: Bad Request
+- 401: Unauthorized
+- 404: Document Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/collections/collectionName/documents/uuid/documentUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.delete_document(
+    collection_name="collectionName",
+    document_uuid="documentUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.deleteDocument("collectionName", "documentUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.DeleteDocument(
+	context.TODO(),
+	"collectionName",
+	"documentUUID",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/collections/:collectionName/documents/uuid/:documentUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.delete_document(
+    collection_name="collectionName",
+    document_uuid="documentUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.deleteDocument("collectionName", "documentUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.DeleteDocument(
+	context.TODO(),
+	"collectionName",
+	"documentUUID",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/collections/:collectionName/documents/uuid/:documentUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.delete_document(
+    collection_name="collectionName",
+    document_uuid="documentUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.deleteDocument("collectionName", "documentUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.DeleteDocument(
+	context.TODO(),
+	"collectionName",
+	"documentUUID",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/collections/:collectionName/documents/uuid/:documentUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.delete_document(
+    collection_name="collectionName",
+    document_uuid="documentUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.deleteDocument("collectionName", "documentUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.DeleteDocument(
+	context.TODO(),
+	"collectionName",
+	"documentUUID",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/collections/:collectionName/documents/uuid/:documentUUID \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.delete_document(
+    collection_name="collectionName",
+    document_uuid="documentUUID",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.deleteDocument("collectionName", "documentUUID");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.DeleteDocument(
+	context.TODO(),
+	"collectionName",
+	"documentUUID",
+)
+
+```

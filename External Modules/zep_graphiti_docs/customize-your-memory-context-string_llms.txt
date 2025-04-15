@@ -1,0 +1,234 @@
+# Customize Your Memory Context String
+
+In this recipe, we will demonstrate how to build a custom memory context string using the [graph search API](/searching-the-graph). This is necessary when using group graphs, or if you want to further customize the context string. We will create and add data to a group graph, and then search the edges and nodes to create a custom context string.
+
+First, we create a group and add some example data:
+
+<Tabs group="setup">
+  <Tab title="Python" group-key="python">
+    ```python
+    import os
+    import uuid
+    import time
+    from dotenv import find_dotenv, load_dotenv
+    from zep_cloud.client import Zep
+    import json
+
+    load_dotenv(dotenv_path=find_dotenv())
+    API_KEY = os.environ.get("ZEP_API_KEY") or "YOUR_API_KEY"
+
+    client = Zep(api_key=API_KEY)
+    uuid_value = uuid.uuid4().hex
+    group_id = "MyGroup" + uuid_value
+    group = client.group.add(group_id=group_id)
+
+    car_inventory_description = {
+        "entity": "Car inventory",
+        "description": "This is a list of cars in the inventory. Each car has a maker, model, and gas mileage."
+    }
+    car_inventory_list = [    
+        {
+            "maker": "Toyota",
+            "model": "Sedan-01",
+            "gas_mileage": "25 mpg",
+        },
+        {
+            "maker": "Ford",
+            "model": "SUV-01",
+            "gas_mileage": "20 mpg",
+        },
+        {
+            "maker": "Ford",
+            "model": "SUV-02",
+            "gas_mileage": "22 mpg",
+        },
+        {
+            "maker": "Chevrolet",
+            "model": "Truck-01",
+            "gas_mileage": "25 mpg",
+        },
+    ]
+
+    json_string = json.dumps(car_inventory_description)
+    client.graph.add(
+        group_id=group_id,
+        type="json",
+        data=json_string,
+    )
+    for item in car_inventory_list:
+        # This helps contextualize the car items in the graph
+        item["description"] = "This is one of the cars in the car inventory"
+        json_string = json.dumps(item)
+        client.graph.add(
+            group_id=group_id,
+            type="json",
+            data=json_string,
+        )
+
+    # Wait a minute or two
+    time.sleep(120)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+    import * as dotenv from "dotenv";
+    import { v4 as uuidv4 } from 'uuid';
+
+    // Define the main function
+    async function main() {
+      dotenv.config();
+      const API_KEY = process.env.ZEP_API_KEY || "YOUR_API_KEY";
+      
+      const client = new ZepClient({ apiKey: API_KEY });
+      const uuidValue = uuidv4();
+      const groupId = `MyGroup${uuidValue}`;
+      const group = await client.group.add({
+        groupId: groupId,
+      });
+      
+      const carInventoryDescription = {
+        entity: "Car inventory",
+        description: "This is a list of cars in the inventory. Each car has a maker, model, and gas mileage."
+      };
+      
+      const productJsonData: CarItem[] = [
+        {
+          maker: "Toyota",
+          model: "Sedan-01",
+          gas_mileage: "25 mpg",
+        },
+        {
+          maker: "Ford",
+          model: "SUV-01",
+          gas_mileage: "20 mpg",
+        },
+        {
+          maker: "Ford",
+          model: "SUV-02",
+          gas_mileage: "22 mpg",
+        },
+        {
+          maker: "Chevrolet",
+          model: "Truck-01",
+          gas_mileage: "25 mpg",
+        },
+      ];
+
+      await client.graph.add({
+        groupId: groupId,
+        type: "json",
+        data: JSON.stringify(carInventoryDescription),
+      });
+      
+      for (const jsonItem of productJsonData) {
+        // This helps contextualize the car items in the graph
+        jsonItem.description = "This is one of the cars in the car inventory";
+        const jsonString = JSON.stringify(jsonItem);
+        await client.graph.add({
+          groupId: groupId,
+          type: "json",
+          data: jsonString,
+        });
+      }
+      
+      // Wait for 2 minutes (120 seconds)
+      const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+      await sleep(120000);
+    ```
+  </Tab>
+</Tabs>
+
+Next, we search the graph for edges and nodes relevant to our custom query. Note that the default [memory context string](/concepts#memory-context) returned by `memory.get` uses the past few messages as the query instead.
+
+<Tabs group="search">
+  <Tab title="Python" group-key="python">
+    ```python
+    query = "What Ford cars do we have in stock and what are there gas mileages?"
+    node_search_results = client.graph.search(
+        group_id=group_id,
+        query=query,
+        scope="nodes",
+        limit=3,
+        reranker="cross_encoder",
+    )
+    edge_search_results = client.graph.search(
+        group_id=group_id,
+        query=query,
+        scope="edges",
+        limit=3,
+        reranker="cross_encoder",
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+      const query = "What Ford cars do we have in stock and what are there gas mileages?";
+      
+      const nodeSearchResults = await client.graph.search({
+        groupId: groupId,
+        query: query,
+        scope: "nodes",
+        limit: 3,
+        reranker: "cross_encoder",
+      });
+      const edgeSearchResults = await client.graph.search({
+        groupId: groupId,
+        query: query,
+        scope: "edges",
+        limit: 3,
+        reranker: "cross_encoder",
+      });
+    ```
+  </Tab>
+</Tabs>
+
+Lastly, we use the search results to build a custom context string:
+
+<Tabs group="build-context">
+  <Tab title="Python" group-key="python">
+    ```python
+    custom_context_string = "Below are facts and entities related to what Ford cars we have in stock:\n"
+
+    custom_context_string += "<FACTS>\n"
+    for edge in edge_search_results.edges:
+        custom_context_string += f"- {edge.fact}\n"
+    custom_context_string += "</FACTS>\n"
+
+    custom_context_string += "<ENTITIES>\n"
+    for node in node_search_results.nodes:
+        custom_context_string += f"- {node.name}: {node.summary}\n"
+    custom_context_string += "</ENTITIES>\n"
+
+    print(custom_context_string)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+      let customContextString = "Below are facts and entities related to what Ford cars we have in stock:\n";
+      
+      customContextString += "<FACTS>\n";
+      for (const edge of edgeSearchResults.edges || []) {
+        customContextString += `- ${edge.fact}\n`;
+      }
+      customContextString += "</FACTS>\n";
+      
+      customContextString += "<ENTITIES>\n";
+      for (const node of nodeSearchResults.nodes || []) {
+        customContextString += `- ${node.name}: ${node.summary}\n`;
+      }
+      customContextString += "</ENTITIES>\n";
+      
+      console.log(customContextString);
+    }
+
+    // Execute the main function
+    main().catch(error => console.error("Error:", error));
+    ```
+  </Tab>
+</Tabs>
+
+This recipe demonstrated how to build a custom memory context string using the [graph search API](/searching-the-graph). We created a group and added some example data, and then searched the edges and nodes to create a custom context string.

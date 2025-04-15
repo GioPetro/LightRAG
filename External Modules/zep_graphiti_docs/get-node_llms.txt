@@ -1,0 +1,153 @@
+# Get User Node
+
+```http
+GET https://api.getzep.com/api/v2/users/{userId}/node
+```
+
+Returns a user's node.
+
+
+
+## Path Parameters
+
+- UserId (required): The user_id of the user to get the node for.
+
+## Response Body
+
+- 200: Response object containing the User node.
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/users/userId/node \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.get_node(
+    user_id="userId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.getNode("userId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.GetNode(
+	context.TODO(),
+	"userId",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/users/:userId/node \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.get_node(
+    user_id="userId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.getNode("userId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.GetNode(
+	context.TODO(),
+	"userId",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/users/:userId/node \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.get_node(
+    user_id="userId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.getNode("userId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.GetNode(
+	context.TODO(),
+	"userId",
+)
+
+```

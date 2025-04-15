@@ -1,0 +1,109 @@
+# Sessions
+
+Sessions represent a conversation. Each [User](/users) can have multiple sessions, and each session is a sequence of chat messages.
+
+Chat messages are added to sessions using [`memory.add`](/concepts#using-memoryadd), which both adds those messages to the session history and ingests those messages into the user-level knowledge graph. The user knowledge graph contains data from all of that user's sessions to create an integrated understanding of the user.
+
+<Note>
+  The knowledge graph does not separate the data from different sessions, but integrates the data together to create a unified picture of the user. So the [get session memory](/sdk-reference/memory/get) endpoint and the associated [`memory.get`](/concepts#using-memoryget) method don't return memory derived only from that session, but instead return whatever user-level memory is most relevant to that session, based on the session's most recent messages.
+</Note>
+
+## Adding a Session
+
+`SessionIDs` are arbitrary identifiers that you can map to relevant business objects in your app, such as users or a
+conversation a user might have with your app. Before you create a session, make sure you have [created a user](/users#adding-a-user) first. Then create a session with:
+
+<Tabs group="sessions">
+  <Tab title="Python" group-key="python">
+    ```python
+    client = Zep(
+        api_key=API_KEY,
+    )
+    session_id = uuid.uuid4().hex # A new session identifier
+
+    client.memory.add_session(
+        session_id=session_id,
+        user_id=user_id,
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const sessionId: string = uuid.v4(); // Generate a new session identifier
+
+    await client.memory.addSession({
+      sessionId: session_id,
+      userId: userId,
+    });
+    ```
+  </Tab>
+</Tabs>
+
+## Getting a Session
+
+<Tabs group="sessions">
+  <Tab title="Python" group-key="python">
+    ```python
+    session = client.memory.get_session(session_id)
+    print(session.dict())
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    const session = await client.memory.getSession(sessionId);
+    console.log(session);
+    ```
+  </Tab>
+</Tabs>
+
+## Deleting a Session
+
+Deleting a session deletes it and its associated messages. It does not however delete the associated data in the user's knowledge graph. To remove data from the graph, see [deleting data from the graph](/deleting-data-from-the-graph).
+
+<Tabs group="sessions">
+  <Tab title="Python" group-key="python">
+    ```python
+    client.memory.delete(session_id)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    await client.memory.delete(sessionId);
+    ```
+  </Tab>
+</Tabs>
+
+## Listing Sessions
+
+You can list all Sessions in the Zep Memory Store with page\_size and page\_number parameters for pagination.
+
+<Tabs group="sessions">
+  <Tab title="Python" group-key="python">
+    ```python
+    # List the first 10 Sessions
+    result = client.memory.list_sessions(page_size=10, page_number=1)
+    for session in result.sessions:
+        print(session)
+
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    // List the first 10 Sessions
+    const { sessions } = await client.memory.listSessions({
+      pageSize: 10,
+      pageNumber: 1,
+    });
+    console.log("First 10 Sessions:");
+    sessions.forEach((session) => console.log(session));
+    ```
+  </Tab>
+</Tabs>

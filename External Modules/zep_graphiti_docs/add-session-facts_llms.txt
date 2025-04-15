@@ -1,0 +1,166 @@
+# Adds facts to a session
+
+```http
+POST https://api.getzep.com/api/v2/sessions/{sessionId}/facts
+Content-Type: application/json
+```
+
+Deprecated API: Adds facts to a session
+
+
+
+## Path Parameters
+
+- SessionId (required): Session ID
+
+## Response Body
+
+- 200: OK
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/sessionId/facts \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.add_session_facts(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.addSessionFacts("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.AddSessionFacts(
+	context.TODO(),
+	"sessionId",
+	&v2.AddFactsRequest{},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/:sessionId/facts \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.add_session_facts(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.addSessionFacts("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.AddSessionFacts(
+	context.TODO(),
+	"sessionId",
+	&v2.AddFactsRequest{},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/:sessionId/facts \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.add_session_facts(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.addSessionFacts("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.AddSessionFacts(
+	context.TODO(),
+	"sessionId",
+	&v2.AddFactsRequest{},
+)
+
+```

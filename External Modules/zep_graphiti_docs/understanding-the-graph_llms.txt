@@ -1,0 +1,19 @@
+# Understanding the Graph
+
+Zep's knowledge graph powers its facts and memory capabilities. Zep's graph is built on [Graphiti](/graphiti/graphiti/overview), Zep's open-source temporal graph library, which is fully integrated into Zep. Developers do not need to interact directly with Graphiti or understand its underlying implementation.
+
+Zep's graph database stores data in three main types:
+
+1. Entity edges (edges): Represent relationships between nodes and include semantic facts representing the relationship between the edge's nodes.
+2. Entity nodes (nodes): Represent entities extracted from episodes, containing summaries of relevant information.
+3. Episodic nodes (episodes): Represent raw data stored in Zep, either through chat history or the `graph.add` endpoint.
+
+## Working with the Graph
+
+To learn more about interacting with Zep's graph, refer to the following sections:
+
+* [Adding Data to the Graph](/adding-data-to-the-graph): Learn how to add new data to the graph.
+* [Reading Data from the Graph](/reading-data-from-the-graph): Discover how to retrieve information from the graph.
+* [Searching the Graph](/searching-the-graph): Explore techniques for efficiently searching the graph.
+
+These guides will help you leverage the full power of Zep's knowledge graph in your applications.

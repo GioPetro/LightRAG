@@ -1,0 +1,108 @@
+# Get User Sessions
+
+```http
+GET https://api.getzep.com/api/v2/users/{userId}/sessions
+```
+
+Returns all sessions for a user.
+
+
+
+## Path Parameters
+
+- UserId (required): User ID
+
+## Response Body
+
+- 200: OK
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/users/userId/sessions \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.get_sessions(
+    user_id="userId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.getSessions("userId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.GetSessions(
+	context.TODO(),
+	"userId",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/users/:userId/sessions \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.get_sessions(
+    user_id="userId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.getSessions("userId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.GetSessions(
+	context.TODO(),
+	"userId",
+)
+
+```

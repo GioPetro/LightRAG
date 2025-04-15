@@ -1,0 +1,59 @@
+# Find Facts Relevant to a Specific Node
+
+Below, we will go through how to retrieve facts which are related to a specific node in a Zep knowledge graph. First, we will go through some methods for determining the UUID of the node you are interested in. Then, we will go through some methods for retrieving the facts related to that node.
+
+If you are interested in the user's node specifically, we have a convenience method that [returns the user's node](/users#get-the-user-node) which includes the UUID.
+
+An easy way to determine the UUID for other nodes is to use the graph explorer in the [Zep Web app](https://app.getzep.com/).
+
+You can also programmatically retrieve all the nodes for a given user using our [get nodes by user API](/sdk-reference/graph/node/get-by-user-id), and then manually examine the nodes and take note of the UUID of the node of interest:
+
+```python
+# Initialize the Zep client
+zep_client = AsyncZep(api_key=API_KEY)
+nodes = await zep_client.graph.node.get_by_user_id(user_id="some user ID")
+print(nodes)
+```
+
+```python
+center_node_uuid = "your chosen center node UUID"
+```
+
+Lastly, if your user has a lot of nodes to look through, you can narrow down the search by only looking at the nodes relevant to a specific query, using our [graph search API](/searching-the-graph):
+
+```python
+results = await zep_client.graph.search(
+    user_id="some user ID",
+    query="shoe", # To help narrow down the nodes you have to manually search
+    scope="nodes"
+)
+relevant_nodes = results.nodes
+print(relevant_nodes)
+```
+
+```python
+center_node_uuid = "your chosen center node UUID"
+```
+
+The most straightforward way to get facts related to your node is to retrieve all facts that are connected to your chosen node using the [get edges by user API](/sdk-reference/graph/edge/get-by-user-id):
+
+```python
+edges = await zep_client.graph.edge.get_by_user_id(user_id="some user ID")
+connected_edges = [edge for edge in edges if edge.source_node_uuid == center_node_uuid or edge.target_node_uuid == center_node_uuid]
+relevant_facts = [edge.fact for edge in connected_edges]
+```
+
+You can also retrieve facts relevant to your node by using the [graph search API](/searching-the-graph) with the node distance re-ranker:
+
+```python
+results = await zep_client.graph.search(
+    user_id="some user ID",
+    query="some query",
+    reranker="node_distance",
+    center_node_uuid=center_node_uuid,
+)
+relevant_edges = results.edges
+relevant_facts = [edge.fact for edge in relevant_edges]
+```
+
+In this recipe, we went through how to retrieve facts which are related to a specific node in a Zep knowledge graph. We first went through some methods for determining the UUID of the node you are interested in. Then, we went through some methods for retrieving the facts related to that node.

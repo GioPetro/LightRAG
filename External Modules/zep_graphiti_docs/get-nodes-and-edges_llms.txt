@@ -1,0 +1,150 @@
+# Return any nodes and edges mentioned in an episode
+
+```http
+GET https://api.getzep.com/api/v2/graph/episodes/{uuid}/mentions
+```
+
+Returns nodes and edges mentioned in an episode
+
+
+
+## Path Parameters
+
+- Uuid (required): Episode uuid
+
+## Response Body
+
+- 200: Graph search results
+- 400: Bad Request
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/graph/episodes/uuid/mentions
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.episode.get_nodes_and_edges(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.episode.getNodesAndEdges("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Episode.GetNodesAndEdges(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/graph/episodes/:uuid/mentions
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.episode.get_nodes_and_edges(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.episode.getNodesAndEdges("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Episode.GetNodesAndEdges(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl https://api.getzep.com/api/v2/graph/episodes/:uuid/mentions
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.episode.get_nodes_and_edges(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.episode.getNodesAndEdges("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Episode.GetNodesAndEdges(
+	context.TODO(),
+	"uuid",
+)
+
+```

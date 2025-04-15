@@ -1,0 +1,155 @@
+# Get Users
+
+```http
+GET https://api.getzep.com/api/v2/users-ordered
+```
+
+Returns all users.
+
+
+
+## Query Parameters
+
+- PageNumber (optional): Page number for pagination, starting from 1
+- PageSize (optional): Number of users to retrieve per page
+
+## Response Body
+
+- 200: Successfully retrieved list of users
+- 400: Bad Request
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/users-ordered \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.list_ordered()
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.listOrdered();
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.ListOrdered(
+	context.TODO(),
+	&v2.UserListOrderedRequest{},
+)
+
+```
+
+```shell
+curl -G https://api.getzep.com/api/v2/users-ordered \
+     -H "Authorization: Api-Key <apiKey>" \
+     -d pageNumber=0 \
+     -d pageSize=0
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.list_ordered()
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.listOrdered();
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.ListOrdered(
+	context.TODO(),
+	&v2.UserListOrderedRequest{},
+)
+
+```
+
+```shell
+curl -G https://api.getzep.com/api/v2/users-ordered \
+     -H "Authorization: Api-Key <apiKey>" \
+     -d pageNumber=0 \
+     -d pageSize=0
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.user.list_ordered()
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.user.listOrdered();
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.User.ListOrdered(
+	context.TODO(),
+	&v2.UserListOrderedRequest{},
+)
+
+```

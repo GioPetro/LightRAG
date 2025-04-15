@@ -1,0 +1,300 @@
+# Check Data Ingestion Status
+
+Data added to Zep is processed asynchronously and can take a few seconds to a few minutes to finish processing. In this recipe, we show how to check whether a given data upload request (also known as an [Episode](/graphiti/graphiti/adding-episodes)) is finished processing by polling Zep with the `graph.episode.get` method.
+
+First, let's create a user:
+
+<CodeBlocks>
+  ```python
+  import os
+  import uuid
+  import time
+  from dotenv import find_dotenv, load_dotenv
+  from zep_cloud.client import Zep
+
+  load_dotenv(dotenv_path=find_dotenv())
+
+  client = Zep(api_key=os.environ.get("ZEP_API_KEY"))
+  uuid_value = uuid.uuid4().hex[:4]
+  user_id = "-" + uuid_value
+  client.user.add(
+      user_id=user_id,
+      first_name = "John",
+      last_name = "Doe",
+      email="john.doe@example.com"
+  )
+  ```
+
+  ```typescript
+  import { ZepClient } from "@getzep/zep-cloud";
+  import * as dotenv from "dotenv";
+  import { v4 as uuidv4 } from 'uuid';
+
+  // Load environment variables
+  dotenv.config();
+
+  const client = new ZepClient({ apiKey: process.env.ZEP_API_KEY || "" });
+  const uuidValue = uuidv4().substring(0, 4);
+  const userId = "-" + uuidValue;
+
+  async function main() {
+    // Add user
+    await client.user.add({
+      userId: userId,
+      firstName: "John",
+      lastName: "Doe",
+      email: "john.doe@example.com"
+    });
+  ```
+
+  ```go
+  package main
+
+  import (
+  	"context"
+  	"fmt"
+  	"os"
+  	"strings"
+  	"time"
+
+  	"github.com/getzep/zep-go/v2"
+  	zepclient "github.com/getzep/zep-go/v2/client"
+  	"github.com/getzep/zep-go/v2/option"
+  	"github.com/google/uuid"
+  	"github.com/joho/godotenv"
+  )
+
+  func main() {
+  	// Load .env file
+  	err := godotenv.Load()
+  	if err != nil {
+  		fmt.Println("Warning: Error loading .env file:", err)
+  		// Continue execution as environment variables might be set in the system
+  	}
+
+  	// Get API key from environment variable
+  	apiKey := os.Getenv("ZEP_API_KEY")
+  	if apiKey == "" {
+  		fmt.Println("ZEP_API_KEY environment variable is not set")
+  		return
+  	}
+
+  	// Initialize Zep client
+  	client := zepclient.NewClient(
+  		option.WithAPIKey(apiKey),
+  	)
+
+  	// Create a UUID
+  	uuidValue := strings.ToLower(uuid.New().String()[:4])
+
+  	// Create user ID
+  	userID := "-" + uuidValue
+
+  	// Create context
+  	ctx := context.Background()
+
+  	// Add a user
+  	userRequest := &zep.CreateUserRequest{
+  		UserID:    zep.String(userID),
+  		FirstName: zep.String("John"),
+  		LastName:  zep.String("Doe"),
+  		Email:     zep.String("john.doe@example.com"),
+  	}
+  	_, err = client.User.Add(ctx, userRequest)
+  	if err != nil {
+  		fmt.Printf("Error creating user: %v\n", err)
+  		return
+  	}
+  ```
+</CodeBlocks>
+
+Now, let's add some data and immediately try to search for that data; because data added to Zep is processed asynchronously and can take a few seconds to a few minutes to finish processing, our search results do not have the data we just added:
+
+<CodeBlocks>
+  ```python
+  episode = client.graph.add(
+      user_id=user_id,
+      type="text", 
+      data="The user is an avid fan of Eric Clapton"
+  )
+
+  search_results = client.graph.search(
+      user_id=user_id,
+      query="Eric Clapton",
+      scope="nodes",
+      limit=1,
+      reranker="cross_encoder",
+  )
+
+  print(search_results.nodes)
+  ```
+
+  ```typescript
+    // Add episode to graph
+    const episode = await client.graph.add({
+      userId: userId,
+      type: "text",
+      data: "The user is an avid fan of Eric Clapton"
+    });
+
+    // Search for nodes related to Eric Clapton
+    const searchResults = await client.graph.search({
+      userId: userId,
+      query: "Eric Clapton",
+      scope: "nodes",
+      limit: 1,
+      reranker: "cross_encoder"
+    });
+
+    console.log(searchResults.nodes);
+  ```
+
+  ```go
+  	// Add a new episode to the graph
+  	episode, err := client.Graph.Add(ctx, &zep.AddDataRequest{
+  		GroupID: zep.String(userID),
+  		Type:    zep.GraphDataTypeText.Ptr(),
+  		Data:    zep.String("The user is an avid fan of Eric Clapton"),
+  	})
+  	if err != nil {
+  		fmt.Printf("Error adding episode to graph: %v\n", err)
+  		return
+  	}
+
+  	// Search for the data
+  	searchResults, err := client.Graph.Search(ctx, &zep.GraphSearchQuery{
+  		UserID:  zep.String(userID),
+  		Query:   "Eric Clapton",
+  		Scope:   zep.GraphSearchScopeNodes.Ptr(),
+  		Limit:   zep.Int(1),
+  		Reranker: zep.RerankerCrossEncoder.Ptr(),
+  	})
+  	if err != nil {
+  		fmt.Printf("Error searching graph: %v\n", err)
+  		return
+  	}
+
+  	fmt.Println(searchResults.Nodes)
+  ```
+</CodeBlocks>
+
+```text
+None
+```
+
+We can check the status of the episode to see when it has finished processing, using the episode returned from the `graph.add` method and the `graph.episode.get` method:
+
+<CodeBlocks>
+  ```python
+  while True:
+      episode = client.graph.episode.get(
+          uuid_=episode.uuid_,
+      )
+      if episode.processed:
+          print("Episode processed successfully")
+          break
+      print("Waiting for episode to process...")
+      time.sleep(1)
+  ```
+
+  ```typescript
+    // Check if episode is processed
+    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    
+    let processedEpisode = await client.graph.episode.get(episode.uuid);
+    
+    while (!processedEpisode.processed) {
+      console.log("Waiting for episode to process...");
+      await sleep(1000); // Sleep for 1 second
+      processedEpisode = await client.graph.episode.get(episode.uuid);
+    }
+    
+    console.log("Episode processed successfully");
+  ```
+
+  ```go
+  	// Wait for the episode to be processed
+  	for {
+  		episodeStatus, err := client.Graph.Episode.Get(
+  			ctx,
+  			episode.UUID,
+  		)
+  		if err != nil {
+  			fmt.Printf("Error getting episode: %v\n", err)
+  			return
+  		}
+
+  		if episodeStatus.Processed != nil && *episodeStatus.Processed {
+  			fmt.Println("Episode processed successfully")
+  			break
+  		}
+
+  		fmt.Println("Waiting for episode to process...")
+  		time.Sleep(1 * time.Second)
+  	}
+  ```
+</CodeBlocks>
+
+```text
+Waiting for episode to process...
+Waiting for episode to process...
+Waiting for episode to process...
+Waiting for episode to process...
+Waiting for episode to process...
+Episode processed successfully
+```
+
+Now that the episode has finished processing, we can search for the data we just added, and this time we get a result:
+
+<CodeBlocks>
+  ```python
+  search_results = client.graph.search(
+      user_id=user_id,
+      query="Eric Clapton",
+      scope="nodes",
+      limit=1,
+      reranker="cross_encoder",
+  )
+
+  print(search_results.nodes)
+  ```
+
+  ```typescript
+    // Search again after processing
+    const finalSearchResults = await client.graph.search({
+      userId: userId,
+      query: "Eric Clapton",
+      scope: "nodes",
+      limit: 1,
+      reranker: "cross_encoder"
+    });
+
+    console.log(finalSearchResults.nodes);
+  }
+
+  // Execute the main function
+  main().catch(error => console.error("Error:", error));
+  ```
+
+  ```go
+  	// Search again after processing
+  	searchResults, err = client.Graph.Search(ctx, &zep.GraphSearchQuery{
+  		UserID:  zep.String(userID),
+  		Query:   "Eric Clapton",
+  		Scope:   zep.GraphSearchScopeNodes.Ptr(),
+  		Limit:   zep.Int(1),
+  		Reranker: zep.RerankerCrossEncoder.Ptr(),
+  	})
+  	if err != nil {
+  		fmt.Printf("Error searching graph: %v\n", err)
+  		return
+  	}
+
+  	fmt.Println(searchResults.Nodes)
+  }
+  ```
+</CodeBlocks>
+
+```text
+[EntityNode(attributes={'category': 'Music', 'labels': ['Entity', 'Preference']}, created_at='2025-04-05T00:17:59.66565Z', labels=['Entity', 'Preference'], name='Eric Clapton', summary='The user is an avid fan of Eric Clapton.', uuid_='98808054-38ad-4cba-ba07-acd5f7a12bc0', graph_id='6961b53f-df05-48bb-9b8d-b2702dd72045')]
+```

@@ -1,0 +1,21 @@
+# Welcome to Zep!
+
+Zep is a memory layer for AI assistants and agents that continuously learns from user interactions and changing business data. Zep ensures that your Agent has a complete and holistic view of the user, enabling you to build more personalized and accurate user experiences.
+
+<CardGroup cols={2}>
+  <Card title="Key Concepts" icon="brain" href="/concepts">
+    Learn about Zep's core concepts including memory, knowledge graphs, and how they work together.
+  </Card>
+
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get up and running with Zep in minutes, whether you code in Python, TypeScript, or Go.
+  </Card>
+
+  <Card title="Cookbooks" icon="book-open" href="/cookbook/customize-your-memory-context-string">
+    Discover practical recipes and patterns for common use cases with Zep.
+  </Card>
+
+  <Card title="SDK Reference" icon="code" href="/sdk-reference">
+    Comprehensive API documentation for Zep's SDKs in Python, TypeScript, and Go.
+  </Card>
+</CardGroup>

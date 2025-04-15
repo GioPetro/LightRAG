@@ -1,0 +1,163 @@
+# Get User Nodes
+
+```http
+POST https://api.getzep.com/api/v2/graph/node/user/{user_id}
+Content-Type: application/json
+```
+
+Returns all nodes for a user
+
+
+
+## Path Parameters
+
+- UserId (required): User ID
+
+## Response Body
+
+- 200: Nodes
+- 400: Bad Request
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/graph/node/user/user_id \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.node.get_by_user_id(
+    user_id="user_id",
+)
+
+```
+
+```typescript
+import { ZepClient, Zep } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.node.getByUserId("user_id", {});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Node.GetByUserID(
+	context.TODO(),
+	"user_id",
+	&v2.GraphNodesRequest{},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/graph/node/user/:user_id \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.node.get_by_user_id(
+    user_id="user_id",
+)
+
+```
+
+```typescript
+import { ZepClient, Zep } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.node.getByUserId("user_id", {});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Node.GetByUserID(
+	context.TODO(),
+	"user_id",
+	&v2.GraphNodesRequest{},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/graph/node/user/:user_id \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.node.get_by_user_id(
+    user_id="user_id",
+)
+
+```
+
+```typescript
+import { ZepClient, Zep } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.node.getByUserId("user_id", {});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Node.GetByUserID(
+	context.TODO(),
+	"user_id",
+	&v2.GraphNodesRequest{},
+)
+
+```

@@ -1,0 +1,283 @@
+# Searching the Graph
+
+Zep employs hybrid search, combining semantic similarity with BM25 full-text. Results are merged and [ranked](#reranking-search-results). Additional details can be found in the [SDK Reference](https://help.getzep.com/sdk-reference/graph/search).
+
+The example below demonstrates a simple search.
+
+<Tabs group="search">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    search_results = client.graph.search(
+        user_id=user_id,
+        query=query,
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const searchResults = await client.graph.search({
+      userId: userId,
+      query: query,
+    });
+    ```
+  </Tab>
+</Tabs>
+
+> Read more about [chat message history search](/concepts/#using-memorysearch_sessions).
+
+<Tip title="Best Practices" icon="magnifying-glass">
+  Keep queries short: they are truncated at 8,192 tokens. Long queries may increase latency without improving search quality.
+  Break down complex searches into smaller, targeted queries. Use precise, contextual queries rather than generic ones
+</Tip>
+
+## Configurable Search Parameters
+
+Zep allows several parameters to fine-tune search behavior:
+
+| Parameter               | Description                                                                                                                            | Default   |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| `user_id` or `group_id` | **Required.** Specifies whether to search user-specific or group graphs                                                                | -         |
+| `scope`                 | Controls search [scope](#search-scopes) - either `"edges"` or `"nodes"`                                                                | `"edges"` |
+| `reranker`              | Method to [rerank](#reranking-search-results) results: `"rrf"`, `"mmr"`, `"node_distance"`, `"episode_mentions"`, or `"cross_encoder"` | `"rrf"`   |
+| `limit`                 | Maximum number of results to return                                                                                                    | `10`      |
+
+## Search Scopes
+
+Nodes are connection points in the graph that represent either:
+
+* Chat history entities
+* Business data added through the [Graph API](/adding-data-to-the-graph)
+
+Each node maintains a summary of facts from its connections (edges), giving you a quick overview of things related to that node.
+
+Edges represent individual connections between nodes, containing specific interactions or pieces of information. Edge search (the default) is best for finding specific details or conversations, while node search helps you understand the broader context around entities in your graph.
+
+The example below demonstrates a node search.
+
+<Tabs group="search">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    search_results = client.graph.search(
+        group_id=group_id,
+        query=query,
+        scope="nodes",
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const searchResults = await client.graph.search({
+      groupId: groupId,
+      query: query,
+      scope: "nodes",
+    });
+    ```
+  </Tab>
+</Tabs>
+
+## Reranking Search Results
+
+<a name="reciprocal-rank-fusion" />
+
+Besides the default Reciprocal Rank Fusion (`rrf`) which combines results from semantic and BM25, Zep supports several reranking methods to improve search results:
+
+* [Maximal Marginal Relevance ](#maximal-marginal-re-ranking)
+* [Node Distance ](#node-distance)
+* [Episode Mention ](#episode-mentions)
+* [Cross Encoder ](#cross-encoder)
+
+### Maximal Marginal Relevance Re-Ranking
+
+<a name="maximal-marginal-re-ranking" />
+
+Standard similarity searches often return highly similar top results, potentially limiting the information added to a prompt. `mmr` addresses this by re-ranking results to promote diversity, downranking similar results in favor of relevant but distinct alternatives.
+
+> Required: `mmr_lambda` - tunes the balance between relevance and diversity
+
+Example of MMR search:
+
+<Tabs group="search">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    search_results = client.graph.search(
+        user_id=user_id,
+        query=query,
+        reranker="mmr",
+        mmr_lambda=0.5, # tune diversity vs relevance
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const searchResults = await client.graph.search({
+      userId: userId,
+      query: query,
+      reranker: "mmr",
+      mmrLambda: 0.5, // tune diversity vs relevance
+    });
+    ```
+  </Tab>
+</Tabs>
+
+### Node Distance
+
+`node_distance` re-ranks search results based on the number of hops between the search result and a center node. This can be useful for finding facts related to a specific node, such as a user or a topic.
+
+> Required: `center_node_uuid` - UUID of the node to use as the center of the search
+
+Example of Node Distance search:
+
+<Tabs group="search">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    search_results = client.graph.search(
+        user_id=user_id,
+        query=query,
+        reranker="node_distance",
+        center_node_uuid=center_node_uuid,
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const searchResults = await client.graph.search({
+      userId: userId,
+      query: query,
+      reranker: "node_distance",
+      centerNodeUuid: centerNodeUuid,
+    });
+    ```
+  </Tab>
+</Tabs>
+
+### Episode Mentions
+
+`episode_mentions` re-ranks search results based on the number of times the node or edge has been mentioned in the chat history.
+
+Example of Episode Mentions search:
+
+<Tabs group="search">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    search_results = client.graph.search(
+        user_id=user_id,
+        query=query,
+        reranker="episode_mentions",
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const searchResults = await client.graph.search({
+      userId: userId,
+      query: query,
+      reranker: "episode_mentions",
+    });
+    ```
+  </Tab>
+</Tabs>
+
+### Cross Encoder
+
+`cross_encoder` re-ranks search results by using a specialized model that jointly analyzes the query and each search result together, providing more accurate relevance scoring than traditional methods that analyze them separately.
+
+Example of Cross Encoder search:
+
+<Tabs group="search">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    search_results = client.graph.search(
+        user_id=user_id,
+        query=query,
+        reranker="cross_encoder",
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const searchResults = await client.graph.search({
+      userId: userId,
+      query: query,
+      reranker: "cross_encoder",
+    });
+    ```
+  </Tab>
+</Tabs>

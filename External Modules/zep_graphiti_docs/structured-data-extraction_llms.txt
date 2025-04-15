@@ -1,0 +1,338 @@
+# Structured Outputs from Messages
+
+> Get Structured Outputs from Chat History stored in Zep, faster and more accurately than your LLM Provider's JSON or Structured Outputs mode.
+
+<Warning>
+  Structured Data Extraction for Python{" "}
+  <strong>requires `pydantic` version 2</strong> installed and is not compatible
+  with `pydantic` v1.
+</Warning>
+
+<lite-vimeo videoid="981721435" />
+
+Many business and consumer apps need to extract structured data from conversation between an Assistant and human user. Often, the extracted data is the objective of the conversation.
+
+Often, you will want to identify the data values you have collected and which values you still need to collect in order to prompt the LLM to request the latter.
+
+This can be a slow and inaccurate exercise, and frustrating to your users. If you're making multiple calls to an LLM to extract and validate data on every chat turn, you're likely adding seconds to your response time.
+
+<Check>
+  Zep's structured data extraction (SDE) is a [low-latency, high-fidelity
+  tool](#latency-and-accuracy-baselines) for generating structured output from
+  Chat History stored in Zep. For many multi-field extraction tasks you can
+  expect latency of under 400ms, with the addition of fields increasing latency
+  sub-linearly.
+</Check>
+
+## Quick Start
+
+An end-to-end SDE example (in Python) can be found in the [Zep By Example repo](https://github.com/getzep/zep-by-example/blob/main/structured-data-extraction/python/sales_order.ipynb).
+
+The example covers:
+
+* defining a model using many of the field types that SDE supports
+* extracting data from a Chat History
+* and provides an example of how to merge newly extracted data with an already partially populated model.
+
+## SDE vs JSON or Structured Outputs Mode
+
+Many model providers offer a JSON and/or Structured Outputs inference mode that guarantees the output will be well-formed JSON, or in the case of Structured Output, is valid according to a provided schema.
+
+However:
+
+1. When using JSON Mode, there are no guarantees that the field values themselves will conform to your JSON Schema.
+2. When using Structured Outputs Mode, there are no guarantees that the field values themselves will conform to your JSON Schema, beyond primitive data types such as strings, numbers, booleans, etc.
+3. There are no guarantees that the field values are correct (vs. being hallucinated).
+4. All fields are extracted in a single inference call, with additional fields adding linearly or greater to extraction latency.
+
+#### SDE's Preprocessing, Guided LLM Output, and Validation
+
+Zep uses a combination of dialog preprocessing, guided LLM output, and post-inference validation to ensure that the extracted data is in the format you expect and is valid given the current dialog. When using a structured Field Type (such as `ZepDate`, `ZepEmail`, `ZepRegex`), you will not receive back data in an incorrect format.
+
+While there are limits to the accuracy of extraction when the conversation is very nuanced or ambiguous, with careful crafting of field descriptions, you can achieve high accuracy in most cases.
+
+#### Concurrent Extraction Scales Sub-Linearly
+
+SDE's extraction latency scales sub-linearly with the number of fields in your model. That is, you may add additional fields with low marginal increase in latency. You can expect extraction times of 400ms or lower when extracting fairly complex models for a 500 character dialog (which includes both message content and your Role and RoleType designations).
+
+## Defining Your Model
+
+To extract data with Zep, you will need to define a model of the data you require from a Chat History. Each model is composed of a set of fields, each of which has a type and description. Key to successful extraction of data is careful construction of the field description.
+
+<Tabs group="sde">
+  <Tab title="Python" group-key="python">
+    ```python maxLines=30
+    from pydantic import Field
+    from zep_cloud.extractor import ZepModel, ZepText, ZepEmail, ZepDate
+
+    class SalesLead(ZepModel):
+        company_name: Optional[ZepText] = Field(
+            description="The company name", 
+            default=None
+        )
+        lead_name: Optional[ZepText] = Field(
+            description="The lead's name", 
+            default=None
+        )
+        lead_email: Optional[ZepEmail] = Field(
+            description="The lead's email", 
+            default=None
+        )
+        lead_phone: Optional[ZepPhoneNumber] = Field(
+            description="The lead's phone number", 
+            default=None
+        )
+        budget: Optional[ZepFloat] = Field(
+            description="The lead's budget for the product", 
+            default=None
+        )
+        product_name: Optional[ZepRegex] = Field(
+            description="The name of the product the lead is interested in",
+            pattern=r"(TimeMachine|MagicTransporter)", 
+            default=None
+        )
+        zip_code: Optional[ZepZipCode] = Field(
+            description="The company zip code", 
+            default=None
+        )
+
+    ```
+
+    When using Python, your model will subclass `ZepModel`. Zep builds on `pydantic` and requires correctly typing fields and using the `Field` class from `pydantic` to define the field description, default value, and `pattern` when using a `ZepRegex` field.
+  </Tab>
+
+  <Tab title="TypeScript" group-key="typescript">
+    ```typescript maxLines=30
+    import { zepFields } from '@getzep/zep-cloud';
+    import { type ExtractedData } from '@getzep/zep-cloud/extractor';
+
+    const leadModelSchema = {
+        companyName: zepFields.text("The company name"),
+        leadName: zepFields.text("The lead's name"),
+        leadEmail: zepFields.email("The lead's email"),
+        leadPhone: zepFields.phoneNumber("The lead's phone number"),
+        budget: zepFields.float("The lead's budget for the product"),
+        productName: zepFields.regex(
+            "The name of the product the lead is interested in",
+            /(TimeMachine|MagicTransporter)/
+        ),
+        zipCode: zepFields.zipCode("The company zip code"),
+    }
+
+    // { companyName?: string, leadName?: string, leadEmail?: string, leadPhone?: string, budget?: number, productName?: string, zipCode?: string }
+    type LeadModel = ExtractedData<typeof leadModelSchema>;
+    ```
+
+    TypeScript models are an object where each field is of a supported `zepFields` type. The object may be typed as `ExtractedData<typeof yourModel>` to access the correctly typed extracted data.
+  </Tab>
+</Tabs>
+
+## Executing an Extraction
+
+To execute an extraction, you will need to call the `extract` method on the memory client. This method requires a `session_id` and a model schema that specifies the types and structures of data to be extracted based on field descriptions.
+
+The `lastN` parameter, or Python equivalent `last_n`, specifies the number prior messages in the Session's Chart History to look back at for data extraction.
+
+The `validate` parameter specifies whether to optionally run an additional validation step on the extracted data.
+
+The `currentDateTime` parameter, or Python equivalent `current_date_time`, specifies your user's current date and time. This is used when extracting dates and times from relative phrases like *"yesterday"* or *"last week"* and to correctly set the timezone of the extracted data.
+
+<Tabs group="sde">
+  <Tab title="Python" group-key="python">
+    ```python
+    extracted_data: SalesLead = client.memory.extract(
+        session_id,
+        SalesLead,
+        last_n=8,
+        validate=False,
+        current_date_time=datetime.now(ZoneInfo('America/New_York'))
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="typescript">
+    ```typescript
+    import moment from "moment-timezone";
+
+    const currentDateTimeNYC = moment.tz("America/New_York").format();
+
+    const lead: LeadModel = await client.memory.extract(
+      sessionId,
+      leadModelSchema,
+      {
+        lastN: 8,
+        validate: false,
+        currentDateTime: currentDateTimeNYC,
+      }
+    );
+    ```
+  </Tab>
+</Tabs>
+
+## Using Progressive Data Extraction To Guide LLMs
+
+Your application may need to collect a number of fields in order to accomplish a task. You can guide the LLM through this process by calling `extract` on every chat turn, identifying which fields are still needed, providing a partially populated model to the LLM, and directing the LLM to collect the remaining data.
+
+```ansi title="Example Prompt"
+You have already collected the following data:
+- Company name: Acme Inc.
+- Lead name: John Doe
+- Lead email: john.doe@acme.com
+
+You still need to collect the following data:
+- Lead phone number
+- Lead budget
+- Product name
+- Zip code
+
+Do not ask for all fields at once. Rather, work the fields
+into your conversation with the user and gradually collect the data.
+```
+
+As each field is populated, you may copy these values into an immutable data structure. Alternatively, if existing values change as the conversation progresses, you can apply a heuristic informed by your business rules to update the data structure with the new values.
+
+## Supported Field Types
+
+Zep supports a wide variety of field types natively. Where Zep does not support a native field type, you can use a `ZepRegex` field to extract a string that matches a structure you define.
+
+| Type     | Description                                                                    | Python Type      | TypeScript Type         |
+| -------- | ------------------------------------------------------------------------------ | ---------------- | ----------------------- |
+| Text     | Plain text values without a set format.                                        | `ZepText`        | `zepFields.text`        |
+| Number   | Integer values.                                                                | `ZepNumber`      | `zepFields.number`      |
+| Float    | Floating-point numbers.                                                        | `ZepFloat`       | `zepFields.float`       |
+| Regex    | Strings matching a regex pattern.                                              | `ZepRegex`       | `zepFields.regex`       |
+| DateTime | Date and time values returned as an ISO 8601 string using your local timezone. | `ZepDateTime`    | `zepFields.dateTime`    |
+| Date     | Date values returned as an ISO 8601 string using your local timezone.          | `ZepDate`        | `zepFields.date`        |
+| Email    | Email addresses.                                                               | `ZepEmail`       | `zepFields.email`       |
+| Phone    | Phone numbers in North American Numbering Plan format.                         | `ZepPhoneNumber` | `zepFields.phoneNumber` |
+| Zip Code | Postal codes in North American ZIP or ZIP+4 format, if available.              | `ZepZipCode`     | `zepFields.zipCode`     |
+
+## Improving Accuracy
+
+Extraction accuracy may be improved by experimenting with different descriptions and using Zep's built-in field validation.
+
+### Improving Descriptions
+
+When describing fields, ensure that you've been both specific and clear as to what value you'd like to extract. You may also provide few-shot examples in your description.
+
+| Bad ❌        | Good ✅                               |
+| ------------ | ------------------------------------ |
+| name         | the name of the customer             |
+| phone        | the customer's phone number          |
+| address      | street address                       |
+| address      | postal address                       |
+| product name | product name: "WidgetA" or "WidgetB" |
+
+### Validating Extracted Data
+
+When `validation` is enabled on your `extract` call, Zep will run an additional LLM validation step on the extracted data. This provides improved accuracy and reduces the risk of hallucinated values. The downside to enabling field validation is increased extraction latency and an increased risk of false negatives (empty fields where the data may be present in the dialog).
+
+We recommend running without field validation first to gauge accuracy and latency and only enable field validation if you've determined that it is needed given your use case.
+
+## Working with Dates
+
+Zep understands a wide variety of date and time formats, including relative times such as "yesterday" or "last week". It is also able to parse partial dates and times, such as "at 3pm" or "on the 15th". All dates and times are returned in ISO 8601 format and use the timezone of the `currentDateTime` parameter passed to the `extract` call.
+
+If you are extracting datetime and date fields it is important that you provide a `currentDateTime` value in your `extract` call and ensure that it is in the correct timezone for your user (or the base timezone your application uses internally).
+
+## Extracting from Speech Transcripts
+
+Zep is able to understand and extract data from machine-translated transcripts. Spelled out numbers and dates will be parsed as if written language. Utterances such as "uh" or "um" are ignored.
+
+| Description                   | From                                                                                        | To                  |
+| ----------------------------- | ------------------------------------------------------------------------------------------- | ------------------- |
+| Apartment size in square feet | It is a three bedroom with approximately one thousand two hundred and fifty two square feet | 1252                |
+| Meeting date and time         | I'm available on the uh fifteenth at uh three pm                                            | 2024-06-15T15:00:00 |
+| The user's phone number       | It's uh two five five two three four five six seven uh eight                                | (255) 234-5678      |
+
+<Note>
+  We are constantly improving transcript extraction. Let us know if you have a
+  use case where this does not work well!
+</Note>
+
+## Multilingual Data Support
+
+Zep's Structured Data Extraction supports most major languages.
+
+## Tips, Tricks, and Best Practices
+
+### Limit the number of Messages from which you extract data
+
+If your use case is latency sensitive, limit the number of messages from which you extract data. The higher the last `N` messages, the longer the extraction will take.
+
+### Always make fields optional in Python models
+
+Always make fields optional in your Python model. This will prevent runtime errors when the data is not present in the conversation.
+
+### Using Regex when Zep doesn't support your data type
+
+The `ZepRegex` field type is a swiss army knife for extracting data. It allows you to extract any string that matches a regex pattern defined by you.
+
+<Tabs group="sde">
+  <Tab title="Python" group-key="python">
+    ```python
+    class OrderInfo(ZepModel):
+        order_id: Optional[ZepRegex] = Field(
+            description="The order ID in format ABC-12345",
+            pattern=r"[A-Z]{3}-\d{5}"
+        )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="typescript">
+    ```typescript
+    orderSchema = {
+            orderId: zepFields.regex({
+                "The order ID in format ABC-12345",
+                /[A-Z]{3}-\d{5}/,
+            }),
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Implementing Enum Fields
+
+The `ZepRegex` field type can be used to extract data from a list of enums provided in a capture group.
+
+```python
+order_currency: Optional[ZepRegex] = Field(
+    description="The order currency: USD, GBP, or UNKNOWN",
+    default=None,
+    pattern=r"(UNKNOWN|USD|GBP)"
+)
+```
+
+Results in:
+
+```text
+"USD"
+```
+
+### Comma Separated Lists
+
+You can extract comma separated lists using the `ZepRegex` field type:
+
+```python
+brand_preferences: Optional[ZepRegex] = Field(
+    description="The customer's preferred brands as a comma-separated list",
+    default=None,
+    pattern=r"\w+(, \w+)+"
+)
+```
+
+Results in:
+
+```text
+"Nike, Adidas, Puma"
+```
+
+### Unsupported Regex Patterns
+
+The following Regex tokens and features are unsupported when using the Regex field type:
+
+* Start of and end of string anchors (`^` and `$`) and absolute positioning (`\A` and `\Z`).
+* Named groups (`(?P<name>...)`).
+* Backreferences (`\g<name>`).
+* Lookaheads and lookbehinds (`(?=...)`, `(?!...)`, `(?<=...)`, `(?<!...)`).
+* Conditional expressions (`(?(condition)yes|no)`).

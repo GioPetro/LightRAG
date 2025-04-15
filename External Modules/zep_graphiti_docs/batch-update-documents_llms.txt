@@ -1,0 +1,279 @@
+# Batch Updates Documents in a DocumentCollection
+
+```http
+PATCH https://api.getzep.com/api/v2/collections/{collectionName}/documents/batchUpdate
+Content-Type: application/json
+```
+
+Updates Documents in a specified DocumentCollection.
+
+
+
+## Path Parameters
+
+- CollectionName (required): Name of the Document Collection
+
+## Response Body
+
+- 200: OK
+- 400: Bad Request
+- 401: Unauthorized
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/collectionName/documents/batchUpdate \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "uuid": "uuid"
+  }
+]'
+```
+
+```python
+from zep_cloud import UpdateDocumentListRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_update_documents(
+    collection_name="collectionName",
+    request=[
+        UpdateDocumentListRequest(
+            uuid_="uuid",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchUpdateDocuments("collectionName", [{
+        uuid: "uuid"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchUpdateDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.UpdateDocumentListRequest{
+		&v2.UpdateDocumentListRequest{
+			UUID: "uuid",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/:collectionName/documents/batchUpdate \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "uuid": "string"
+  }
+]'
+```
+
+```python
+from zep_cloud import UpdateDocumentListRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_update_documents(
+    collection_name="collectionName",
+    request=[
+        UpdateDocumentListRequest(
+            uuid_="uuid",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchUpdateDocuments("collectionName", [{
+        uuid: "uuid"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchUpdateDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.UpdateDocumentListRequest{
+		&v2.UpdateDocumentListRequest{
+			UUID: "uuid",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/:collectionName/documents/batchUpdate \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "uuid": "string"
+  }
+]'
+```
+
+```python
+from zep_cloud import UpdateDocumentListRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_update_documents(
+    collection_name="collectionName",
+    request=[
+        UpdateDocumentListRequest(
+            uuid_="uuid",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchUpdateDocuments("collectionName", [{
+        uuid: "uuid"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchUpdateDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.UpdateDocumentListRequest{
+		&v2.UpdateDocumentListRequest{
+			UUID: "uuid",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/collections/:collectionName/documents/batchUpdate \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "uuid": "string"
+  }
+]'
+```
+
+```python
+from zep_cloud import UpdateDocumentListRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_update_documents(
+    collection_name="collectionName",
+    request=[
+        UpdateDocumentListRequest(
+            uuid_="uuid",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchUpdateDocuments("collectionName", [{
+        uuid: "uuid"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchUpdateDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.UpdateDocumentListRequest{
+		&v2.UpdateDocumentListRequest{
+			UUID: "uuid",
+		},
+	},
+)
+
+```

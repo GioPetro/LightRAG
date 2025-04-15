@@ -1,0 +1,30 @@
+# Get Most Relevant Facts for an Arbitrary Query
+
+In this recipe, we demonstrate how to retrieve the most relevant facts from the knowledge graph using an arbitrary search query.
+
+First, we perform a [search](/searching-the-graph) on the knowledge graph using a sample query:
+
+```python
+zep_client = AsyncZep(api_key=API_KEY)
+results = await client.graph.search(user_id="some user_id", query="Some search query", scope="edges")
+```
+
+Then, we get the edges from the search results and construct our fact list. We also include the temporal validity data to each fact string:
+
+```python
+# Build list of formatted facts
+relevant_edges = results.edges
+formatted_facts = []
+for edge in relevant_edges:
+    valid_at = edge.valid_at if edge.valid_at is not None else "date unknown"
+    invalid_at = edge.invalid_at if edge.invalid_at is not None else "present"
+    formatted_fact = f"{edge.fact} (Date range: {valid_at} - {invalid_at})"
+    formatted_facts.append(formatted_fact)
+
+# Print the results
+print("\nFound facts:")
+for fact in formatted_facts:
+    print(f"- {fact}")
+```
+
+We demonstrated how to retrieve the most relevant facts for an arbitrary query using the Zep client. Adjust the query and parameters as needed to tailor the search for your specific use case.

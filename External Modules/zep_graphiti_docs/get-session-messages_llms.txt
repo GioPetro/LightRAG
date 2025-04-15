@@ -1,0 +1,165 @@
+# Get Messages for Session
+
+```http
+GET https://api.getzep.com/api/v2/sessions/{sessionId}/messages
+```
+
+Returns messages for a session.
+
+
+
+## Path Parameters
+
+- SessionId (required): Session ID
+
+## Query Parameters
+
+- Limit (optional): Limit the number of results returned
+- Cursor (optional): Cursor for pagination
+
+## Response Body
+
+- 200: OK
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/sessions/sessionId/messages
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.get_session_messages(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.getSessionMessages("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.GetSessionMessages(
+	context.TODO(),
+	"sessionId",
+	&v2.MemoryGetSessionMessagesRequest{},
+)
+
+```
+
+```shell
+curl -G https://api.getzep.com/api/v2/sessions/:sessionId/messages \
+     -d limit=0 \
+     -d cursor=0
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.get_session_messages(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.getSessionMessages("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.GetSessionMessages(
+	context.TODO(),
+	"sessionId",
+	&v2.MemoryGetSessionMessagesRequest{},
+)
+
+```
+
+```shell
+curl -G https://api.getzep.com/api/v2/sessions/:sessionId/messages \
+     -d limit=0 \
+     -d cursor=0
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.get_session_messages(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.getSessionMessages("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.GetSessionMessages(
+	context.TODO(),
+	"sessionId",
+	&v2.MemoryGetSessionMessagesRequest{},
+)
+
+```

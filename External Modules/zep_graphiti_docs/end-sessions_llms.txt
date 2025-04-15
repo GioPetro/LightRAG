@@ -1,0 +1,247 @@
+# End multiple sessions.
+
+```http
+POST https://api.getzep.com/api/v2/sessions/end
+Content-Type: application/json
+```
+
+Deprecated API: End multiple sessions by their IDs.
+
+
+
+## Response Body
+
+- 200: OK
+- 400: Bad Request
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/end \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "session_ids": [
+    "session_ids"
+  ]
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.end_sessions(
+    session_ids=["session_ids"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.endSessions({
+    sessionIds: ["session_ids"]
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.EndSessions(
+	context.TODO(),
+	&v2.EndSessionsRequest{
+		SessionIDs: []string{
+			"session_ids",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/end \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "session_ids": [
+    "string"
+  ]
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.end_sessions(
+    session_ids=["session_ids"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.endSessions({
+    sessionIds: ["session_ids"]
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.EndSessions(
+	context.TODO(),
+	&v2.EndSessionsRequest{
+		SessionIDs: []string{
+			"session_ids",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/end \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "session_ids": [
+    "string"
+  ]
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.end_sessions(
+    session_ids=["session_ids"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.endSessions({
+    sessionIds: ["session_ids"]
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.EndSessions(
+	context.TODO(),
+	&v2.EndSessionsRequest{
+		SessionIDs: []string{
+			"session_ids",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/end \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "session_ids": [
+    "string"
+  ]
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.end_sessions(
+    session_ids=["session_ids"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.endSessions({
+    sessionIds: ["session_ids"]
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.EndSessions(
+	context.TODO(),
+	&v2.EndSessionsRequest{
+		SessionIDs: []string{
+			"session_ids",
+		},
+	},
+)
+
+```

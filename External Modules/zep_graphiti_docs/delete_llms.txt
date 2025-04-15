@@ -1,0 +1,194 @@
+# Delete Episode
+
+```http
+DELETE https://api.getzep.com/api/v2/graph/episodes/{uuid}
+```
+
+Deletes an episode by its UUID.
+
+
+
+## Path Parameters
+
+- Uuid (required): Episode UUID
+
+## Response Body
+
+- 200: Episode deleted
+- 400: Bad Request
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/graph/episodes/uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.episode.delete(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.episode.delete("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Episode.Delete(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/graph/episodes/:uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.episode.delete(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.episode.delete("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Episode.Delete(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/graph/episodes/:uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.episode.delete(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.episode.delete("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Episode.Delete(
+	context.TODO(),
+	"uuid",
+)
+
+```
+
+```shell
+curl -X DELETE https://api.getzep.com/api/v2/graph/episodes/:uuid
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.graph.episode.delete(
+    uuid_="uuid",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.graph.episode.delete("uuid");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Graph.Episode.Delete(
+	context.TODO(),
+	"uuid",
+)
+
+```

@@ -1,0 +1,231 @@
+# Batch Deletes Documents from a DocumentCollection by UUID
+
+```http
+POST https://api.getzep.com/api/v2/collections/{collectionName}/documents/batchDelete
+Content-Type: application/json
+```
+
+Deletes specified Documents from a DocumentCollection.
+
+
+
+## Path Parameters
+
+- CollectionName (required): Name of the Document Collection
+
+## Response Body
+
+- 200: OK
+- 400: Bad Request
+- 401: Unauthorized
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/collectionName/documents/batchDelete \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  "string"
+]'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_delete_documents(
+    collection_name="collectionName",
+    request=["string"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchDeleteDocuments("collectionName", ["string"]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchDeleteDocuments(
+	context.TODO(),
+	"collectionName",
+	[]string{
+		"string",
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/:collectionName/documents/batchDelete \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  "string"
+]'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_delete_documents(
+    collection_name="collectionName",
+    request=["string"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchDeleteDocuments("collectionName", ["string"]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchDeleteDocuments(
+	context.TODO(),
+	"collectionName",
+	[]string{
+		"string",
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/:collectionName/documents/batchDelete \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  "string"
+]'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_delete_documents(
+    collection_name="collectionName",
+    request=["string"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchDeleteDocuments("collectionName", ["string"]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchDeleteDocuments(
+	context.TODO(),
+	"collectionName",
+	[]string{
+		"string",
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/:collectionName/documents/batchDelete \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  "string"
+]'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.batch_delete_documents(
+    collection_name="collectionName",
+    request=["string"],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.batchDeleteDocuments("collectionName", ["string"]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.BatchDeleteDocuments(
+	context.TODO(),
+	"collectionName",
+	[]string{
+		"string",
+	},
+)
+
+```

@@ -1,0 +1,193 @@
+# Adding Data to the Graph
+
+## Overview
+
+<Warning>
+  Requests to add data to the same graph are completed sequentially to ensure the graph is built correctly. A large number of calls to add data to the same graph may result in lengthy processing times.
+</Warning>
+
+In addition to incorporating memory through chat history, Zep offers the capability to add data directly to the graph.
+Zep supports three distinct data types: message, text, and JSON.
+
+The message type is ideal for adding data in the form of chat messages that are not directly associated with a Zep [Session's](/sessions) chat history. This encompasses any communication with a designated speaker, such as emails or previous chat logs.
+
+The text type is designed for raw text data without a specific speaker attribution. This category includes content from internal documents, wiki articles, or company handbooks. It's important to note that Zep does not process text directly from links or files.
+
+The JSON type may be used to add any JSON document to Zep. This may include REST API responses or JSON-formatted business data.
+
+<Note>
+  The `graph.add` endpoint has a data size limit of 10,000 characters.
+</Note>
+
+You can add data to either a user graph by providing a `user_id`, or to a [group graph](/groups) by specifying a `group_id`.
+
+## Adding Message Data
+
+Here's an example demonstrating how to add message data to the graph:
+
+<Tabs group="graph-add">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    message = "Paul (user): I went to Eric Clapton concert last night"
+
+    new_episode = client.graph.add(
+        user_id="user123",    # Optional user ID
+        type="message",       # Specify type as "message"
+        data=message
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const message = "User: I really enjoy working with TypeScript and React";
+
+    const newEpisode = await client.graph.add({
+        userId: "user123",
+        type: "message",
+        data: message
+    });
+    ```
+  </Tab>
+</Tabs>
+
+## Adding Text Data
+
+Here's an example demonstrating how to add text data to the graph:
+
+<Tabs group="graph-add">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    new_episode = client.graph.add(
+        user_id="user123",  # Optional user ID
+        type="text",        # Specify type as "text" 
+        data="The user is an avid fan of Eric Clapton"
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const newEpisode = await client.graph.add({
+        userId: "user123",  // Required: either userId or groupId
+        type: "text",
+        data: "The user is interested in machine learning and artificial intelligence"
+    });
+
+    ```
+  </Tab>
+</Tabs>
+
+## Adding JSON Data
+
+Here's an example demonstrating how to add JSON data to the graph:
+
+<Tabs group="graph-add">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+    import json
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    json_data = {"name": "Eric Clapton", "age": 78, "genre": "Rock"}
+    json_string = json.dumps(json_data)
+    new_episode = client.graph.add(
+        user_id=user_id,
+        type="json",
+        data=json_string,
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const jsonString = '{"name": "Eric Clapton", "age": 78, "genre": "Rock"}';
+    const newEpisode = await client.graph.add({
+        userId: userId,
+        type: "json",
+        data: jsonString,
+    });
+    ```
+  </Tab>
+</Tabs>
+
+## Adding Custom Fact/Node Triplets
+
+You can also add manually specified fact/node triplets to the graph. You need only specify the fact, the target node name, and the source node name. Zep will then create a new corresponding edge and nodes, or use an existing edge/nodes if they exist and seem to represent the same nodes or edge you send as input. And if this new fact invalidates an existing fact, it will mark the existing fact as invalid and add the new fact triplet.
+
+<Tabs group="graph-add-triplet">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    client.graph.add_fact_triple(
+        user_id=user_id,
+        fact="Paul met Eric",
+        fact_name="MET",
+        target_node_name="Eric Clapton",
+        source_node_name="Paul",
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    await client.graph.addFactTriple({
+      userId: userId,
+      fact: "Paul met Eric",
+      factName: "MET",
+      targetNodeName: "Eric Clapton",
+      sourceNodeName: "Paul",
+    });
+    ```
+  </Tab>
+</Tabs>
+
+You can also specify the node summaries, edge temporal data, and UUIDs. See the [associated SDK reference](/sdk-reference/graph/add-fact-triple).
+
+## Managing Your Data on the Graph
+
+The `graph.add` method returns the [episode](/graphiti/graphiti/adding-episodes) that was created in the graph from adding that data. You can use this to maintain a mapping between your data and its corresponding episode in the graph and to delete specific data from the graph using the [delete episode](/deleting-data-from-the-graph#delete-an-episode) method.

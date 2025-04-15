@@ -1,0 +1,215 @@
+# Update Group
+
+```http
+PATCH https://api.getzep.com/api/v2/groups/{groupId}
+Content-Type: application/json
+```
+
+Updates information about a group.
+
+
+
+## Path Parameters
+
+- GroupId (required): Group ID
+
+## Response Body
+
+- 201: The added group
+- 400: Bad Request
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/groups/groupId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.group.update(
+    group_id="groupId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.group.update("groupId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Group.Update(
+	context.TODO(),
+	"groupId",
+	&v2.UpdateGroupRequest{},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/groups/:groupId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.group.update(
+    group_id="groupId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.group.update("groupId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Group.Update(
+	context.TODO(),
+	"groupId",
+	&v2.UpdateGroupRequest{},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/groups/:groupId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.group.update(
+    group_id="groupId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.group.update("groupId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Group.Update(
+	context.TODO(),
+	"groupId",
+	&v2.UpdateGroupRequest{},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/groups/:groupId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.group.update(
+    group_id="groupId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.group.update("groupId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Group.Update(
+	context.TODO(),
+	"groupId",
+	&v2.UpdateGroupRequest{},
+)
+
+```

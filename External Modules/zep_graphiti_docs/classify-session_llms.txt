@@ -1,0 +1,211 @@
+# Classify Session
+
+```http
+POST https://api.getzep.com/api/v2/sessions/{sessionId}/classify
+Content-Type: application/json
+```
+
+Classifies a session.
+
+
+
+## Path Parameters
+
+- SessionId (required): Session ID
+
+## Response Body
+
+- 200: A response object containing the name and classification result.
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/sessionId/classify \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "classes": [
+    "classes"
+  ],
+  "name": "name"
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.classify_session(
+    session_id="sessionId",
+    classes=["classes"],
+    name="name",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.classifySession("sessionId", {
+    classes: ["classes"],
+    name: "name"
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.ClassifySession(
+	context.TODO(),
+	"sessionId",
+	&v2.ClassifySessionRequest{
+		Classes: []string{
+			"classes",
+		},
+		Name: "name",
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/:sessionId/classify \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "classes": [
+    "string"
+  ],
+  "name": "string"
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.classify_session(
+    session_id="sessionId",
+    classes=["classes"],
+    name="name",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.classifySession("sessionId", {
+    classes: ["classes"],
+    name: "name"
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.ClassifySession(
+	context.TODO(),
+	"sessionId",
+	&v2.ClassifySessionRequest{
+		Classes: []string{
+			"classes",
+		},
+		Name: "name",
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/sessions/:sessionId/classify \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "classes": [
+    "string"
+  ],
+  "name": "string"
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.classify_session(
+    session_id="sessionId",
+    classes=["classes"],
+    name="name",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.classifySession("sessionId", {
+    classes: ["classes"],
+    name: "name"
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.ClassifySession(
+	context.TODO(),
+	"sessionId",
+	&v2.ClassifySessionRequest{
+		Classes: []string{
+			"classes",
+		},
+		Name: "name",
+	},
+)
+
+```

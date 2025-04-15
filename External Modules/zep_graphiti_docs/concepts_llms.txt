@@ -1,0 +1,240 @@
+# Key Concepts
+
+> Understanding Zep's Memory, Knowledge Graph, and Data Integration.
+
+<Tip>
+  Looking to just get coding? Install a [Zep SDK](/sdks) and [build a simple chatbot](/quickstart).
+</Tip>
+
+Zep is a memory layer for AI assistants and agents that continuously learns from user interactions and changing business data. Zep ensures that your Agent has a complete and holistic view of the user, enabling you to build more personalized and accurate user experiences.
+
+Using [user chat histories and business data](#business-data-vs-chat-message-data), Zep automatically constructs a [knowledge graph](#the-knowledge-graph) for each of your users. The knowledge graph contains entities, relationships, and facts related to your user. As facts change or are superseded, [Zep updates the graph](#managing-changes-in-facts-over-time) to reflect their new state. Using Zep, you can [build prompts](#how-zep-fits-into-your-application) that provide your agent with the information it needs to personalize responses and solve problems. Ensuring your prompts have the right information reduces hallucinations, improves recall, and reduces the cost of LLM calls.
+
+<lite-vimeo videoid="1021963693" />
+
+This guide covers key concepts for using Zep effectively:
+
+* [How Zep fits into your application](#how-zep-fits-into-your-application)
+* [The Zep Knowledge Graph](#the-knowledge-graph)
+* [User vs Group graphs](#user-vs-group-graphs)
+* [Managing changes in facts over time](#managing-changes-in-facts-over-time)
+* [Business data vs Chat Message data](#business-data-vs-chat-message-data)
+* [Users and Chat Sessions](#users-and-chat-sessions)
+* [Adding Memory](#adding-memory)
+* [Retrieving memory](#retrieving-memory)
+* [Improving Fact Quality](#improving-fact-quality)
+* [Using Zep as an agentic tool](#using-zep-as-an-agentic-tool)
+* [Other Zep Features](#other-zep-features)
+
+## How Zep fits into your application
+
+Your application sends Zep messages and other interactions your agent has with a human. Zep can also ingest data from your business sources in JSON, text, or chat message format. These sources may include CRM applications, emails, billing data, or conversations on other communication platforms like Slack.
+
+<Frame>
+  <img src="file:007c0693-3bc2-4bd6-8a55-80863a3f13ed" />
+</Frame>
+
+Zep fuses this data together on a knowledge graph, building a holistic view of the user's world and the relationships between entities. Zep offers a number of APIs for [adding and retrieving memory](#retrieving-memory). In addition to populating a prompt with Zep's memory, Zep's search APIs can be used to build [agentic tools](#using-zep-as-an-agentic-tool).
+
+The example below shows Zep's `memory.context` field resulting from a call to `memory.get()`. This is an opinionated, easy to use context string that can be added to your prompt and contains facts and graph entities relevant to the current conversation with a user. For more about the temporal context of facts, see [Managing changes in facts over time](#managing-changes-in-facts-over-time).
+
+Zep also returns a number of other artifacts in the `memory.get()` response, including raw `facts` objects. Zep's search methods can also be used to retrieve nodes, edges, and facts.
+
+### Memory Context
+
+Memory context is a string containing relevant facts and entities for the session. It is always present in the result of `memory.get()`
+call and can be optionally [received with the response of `memory.add()` call](/docs/performance/performance-best-practices#get-the-memory-context-string-sooner).
+
+<Tab title="Python" group-key="python" id="memory-context">
+  ```python
+  # pass in the session ID of the conversation thread
+  memory = zep_client.memory.get(session_id="session_id") 
+  print(memory.context)
+  ```
+
+  ```text
+  FACTS and ENTITIES represent relevant context to the current conversation.
+
+  # These are the most relevant facts and their valid date ranges
+
+  # format: FACT (Date range: from - to)
+
+  <FACTS>
+    - Emily is experiencing issues with logging in. (2024-11-14 02:13:19+00:00 -
+      present) 
+    - User account Emily0e62 has a suspended status due to payment failure. 
+      (2024-11-14 02:03:58+00:00 - present) 
+    - user has the id of Emily0e62 (2024-11-14 02:03:54 - present)
+    - The failed transaction used a card with last four digits 1234. (2024-09-15
+      00:00:00+00:00 - present)
+    - The reason for the transaction failure was 'Card expired'. (2024-09-15
+      00:00:00+00:00 - present)
+    - user has the name of Emily Painter (2024-11-14 02:03:54 - present) 
+    - Account Emily0e62 made a failed transaction of 99.99. (2024-07-30 
+      00:00:00+00:00 - 2024-08-30 00:00:00+00:00)
+  </FACTS>
+
+  # These are the most relevant entities
+
+  # ENTITY_NAME: entity summary
+
+  <ENTITIES>
+    - Emily0e62: Emily0e62 is a user account associated with a transaction,
+      currently suspended due to payment failure, and is also experiencing issues
+      with logging in. 
+    - Card expired: The node represents the reason for the transaction failure, 
+      which is indicated as 'Card expired'. 
+    - Magic Pen Tool: The tool being used by the user that is malfunctioning. 
+    - User: user 
+    - Support Agent: Support agent responding to the user's bug report. 
+    - SupportBot: SupportBot is the virtual assistant providing support to the user, 
+      Emily, identified as SupportBot. 
+    - Emily Painter: Emily is a user reporting a bug with the magic pen tool, 
+      similar to Emily Painter, who is expressing frustration with the AI art
+      generation tool and seeking assistance regarding issues with the PaintWiz app.
+  </ENTITIES>
+  ```
+</Tab>
+
+You can then include this context in your system prompt:
+
+| MessageType | Content                                                 |
+| ----------- | ------------------------------------------------------- |
+| `System`    | Your system prompt <br /> <br /> `{Zep context string}` |
+| `Assistant` | An assistant message stored in Zep                      |
+| `User`      | A user message stored in Zep                            |
+| ...         | ...                                                     |
+| `User`      | The latest user message                                 |
+
+## The Knowledge Graph
+
+<Card title="What is a Knowledge Graph?" icon="duotone chart-network">
+  A knowledge graph is a network of interconnected facts, such as *"Kendra loves
+  Adidas shoes."* Each fact is a *"triplet"* represented by two entities, or
+  nodes (*"Kendra", "Adidas shoes"*), and their relationship, or edge
+  (*"loves"*).
+
+  <br />
+
+  Knowledge Graphs have been explored extensively for information retrieval.
+  What makes Zep unique is its ability to autonomously build a knowledge graph
+  while handling changing relationships and maintaining historical context.
+</Card>
+
+Zep automatically constructs a knowledge graph for each of your users. The knowledge graph contains entities, relationships, and facts related to your user, while automatically handling changing relationships and facts.
+
+Here's an example of how Zep might extract graph data from a chat message, and then update the graph once new information is available:
+
+![graphiti intro slides](file:36fb1a8a-2a07-4fe2-91a0-0a6b45c3e149)
+
+Each node and edge contains certain attributes - notably, a fact is always stored as an edge attribute. There are also datetime attributes for when the fact becomes [valid and when it becomes invalid](#managing-changes-in-facts-over-time).
+
+## User vs Group graphs
+
+Zep automatically creates a knowledge graph for each User of your application. You as the developer can also create a ["group graph"](/groups) (which is best thought of as an "arbitrary graph") for memory to be used by a group of Users, or for a more complicated use case.
+
+For example, you could create a group graph for your company's product information or even messages related to a group chat. This avoids having to add the same data to each user graph. To do so, you'd use the `graph.add()` and `graph.search()` methods (see [Retrieving memory](#retrieving-memory)).
+
+Group knowledge is not retrieved via the `memory.get()` method and is not included in the `memory.context` string. To use user and group graphs simultaneously, you need to add group-specific context to your prompt alongside the `memory.context` string.
+
+Read more about groups [here](/groups).
+
+## Managing changes in facts over time
+
+When incorporating new data, Zep looks for existing nodes and edges in graph and decides whether to add new nodes/edges or to update existing ones. An update could mean updating an edge (for example, indicating the previous fact is no longer valid).
+
+For example, in the [animation above](#the-knowledge-graph), Kendra initially loves Adidas shoes. She later is angry that the shoes broke and states a preference for Puma shoes. As a result, Zep invalidates the fact that Kendra loves Adidas shoes and creates two new facts: "Kendra's Adidas shoes broke" and "Kendra likes Puma shoes".
+
+Zep also looks for dates in all ingested data, such as the timestamp on a chat message or an article's publication date, informing how Zep sets the following edge attributes. This assists your agent in reasoning with time.
+
+| Edge attribute  | Example                                         |
+| :-------------- | :---------------------------------------------- |
+| **created\_at** | The time Zep learned that the user got married  |
+| **valid\_at**   | The time the user got married                   |
+| **invalid\_at** | The time the user got divorced                  |
+| **expired\_at** | The time Zep learned that the user got divorced |
+
+The `valid_at` and `invalid_at` attributes for each fact are then included in the `memory.context` string which is given to your agent:
+
+```text
+# format: FACT (Date range: from - to)
+User account Emily0e62 has a suspended status due to payment failure. (2024-11-14 02:03:58+00:00 - present)
+```
+
+## Business data vs Chat Message data
+
+Zep can ingest either unstructured text (e.g. documents, articles, chat messages) or JSON data (e.g. business data, or any other form of structured data). Conversational data is ingested through `memory.add()` in structured chat message format, and all other data is ingested through the `graph.add()` method.
+
+## Users and Chat Sessions
+
+A Session is a series of chat messages (e.g., between a user and your agent). [Users](/users) may have multiple Sessions.
+
+Entities, relationships, and facts are extracted from the messages in a Session and added to the user's knowledge graph. All of a user's Sessions contribute to a single, shared knowledge graph for that user. Read more about sessions [here](/sessions).
+
+<Note>
+  `SessionIDs` are arbitrary identifiers that you can map to relevant business objects in your app, such as users or a
+  conversation a user might have with your app.
+</Note>
+
+For code examples of how to create users and sessions, see the [Quickstart Guide](/quickstart#create-a-user-and-session).
+
+## Adding Memory
+
+There are two ways to add data to Zep: `memory.add()` and `graph.add()`.
+
+### Using `memory.add()`
+
+Add your chat history to Zep using the `memory.add()` method. `memory.add` is session-specific and expects data in chat message format, including a `role` name (e.g., user's real name), `role_type` (AI, human, tool), and message `content`. Zep stores the chat history and builds a user-level knowledge graph from the messages.
+
+For code examples of how to add messages to Zep's memory, see the [Quickstart Guide](/quickstart#adding-messages-and-retrieving-context).
+
+<Tip>
+  For best results, add chat history to Zep on every chat turn. That is, add both the AI and human messages in a single operation and in the order that the messages were created.
+</Tip>
+
+Additionally, for latency-sensitive applications, you can request the memory context directly in the response to the `memory.add` call. Read more [here](/docs/performance/performance-best-practices#get-the-memory-context-string-sooner).
+
+### Using `graph.add()`
+
+The `graph.add()` method enables you to add business data as a JSON object or unstructured text. It also supports adding data to Group graphs by passing in a `group_id` as opposed to a `user_id`.
+
+For code examples of how to add business data to the graph, see the [Quickstart Guide](/quickstart#adding-business-data-to-a-graph).
+
+## Retrieving memory
+
+There are three ways to retrieve memory from Zep: `memory.get()`, `graph.search()`, and methods for retrieving specific nodes, edges, or episodes using UUIDs.
+
+### Using `memory.get()`
+
+The `memory.get()` method is a user-friendly, high-level API for retrieving relevant context from Zep. It uses the latest messages of the *given session* to determine what information is most relevant from the user's knowledge graph and returns that information in a [context string](#memory-context) for your prompt. Note that although `memory.get()` only requires a session ID, it is able to return memory derived from any session of that user. The session is just used to determine what's relevant.
+
+`memory.get` also returns recent chat messages and raw facts that may provide additional context for your agent. It is user and session-specific and cannot retrieve data from group graphs.
+
+For code examples of how to retrieve memory context for a session, see the [Quickstart Guide](/quickstart#retrieving-context-with-memoryget).
+
+### Using `graph.search()`
+
+The `graph.search()` method lets you search the graph directly, returning raw edges and/or nodes (defaults to edges), as opposed to facts. You can customize search parameters, such as the reranker used. For more on how search works, visit the [Graph Search](/searching-the-graph) guide. This method works for both User and Group graphs.
+
+For code examples of how to search the graph, see the [Quickstart Guide](/quickstart#searching-the-graph).
+
+### Retrieving specific nodes, edges, and episodes
+
+Zep offers several utility methods for retrieving specific nodes, edges, or episodes by UUID, or all elements for a user or group. To retrieve a fact, you just need to retrieve its edge, since a fact is always the attribute of some edge. See the [Graph SDK reference](/sdk-reference/graph) for more.
+
+## Improving Fact Quality
+
+By using Zep's fact rating feature, you can make Zep automatically assign a rating to every fact using your own custom rating instruction. Then, when retrieving memory, you can set a minimum rating threshold so that the memory only contains the highest quality facts for your use case. Read more [here](/facts#fact-ratings---prioritizing-relevance).
+
+## Using Zep as an agentic tool
+
+Zep's memory retrieval methods can be used as agentic tools, enabling your agent to query Zep for relevant information. This allows your agent to access the user's knowledge graph and retrieve facts, entities, and relationships that are relevant to the current conversation.
+
+For a complete code example of how to use Zep as an agentic tool, see the [Quickstart Guide](/quickstart#using-zep-as-an-agentic-tool).
+
+## Other Zep Features
+
+Additionally, Zep builds on Zep's memory layer with tools to help you build more deterministic and accurate applications:
+
+* [Dialog Classification](/dialog-classification) is a flexible low-latency API for understanding intent, segmenting users, determining the state of a conversation and more, allowing you to select appropriate prompts and models, and manage application flow.
+* [Structured Data Extraction](/structured-data-extraction) extracts data from conversations with high-fidelity and low-latency, enabling you to confidently populate your data store, call third-party applications, and build custom workflows.

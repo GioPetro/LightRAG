@@ -1,0 +1,329 @@
+# Update a session
+
+```http
+PATCH https://api.getzep.com/api/v2/sessions/{sessionId}
+Content-Type: application/json
+```
+
+Update Session Metadata
+
+
+
+## Path Parameters
+
+- SessionId (required): The unique identifier of the session.
+
+## Response Body
+
+- 200: The updated session.
+- 400: Bad Request
+- 404: Not Found
+- 409: Conflict
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/sessionId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "key": "value"
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_session(
+    session_id="sessionId",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateSession("sessionId", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateSession(
+	context.TODO(),
+	"sessionId",
+	&v2.UpdateSessionRequest{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/:sessionId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "string": {}
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_session(
+    session_id="sessionId",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateSession("sessionId", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateSession(
+	context.TODO(),
+	"sessionId",
+	&v2.UpdateSessionRequest{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/:sessionId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "string": {}
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_session(
+    session_id="sessionId",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateSession("sessionId", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateSession(
+	context.TODO(),
+	"sessionId",
+	&v2.UpdateSessionRequest{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/:sessionId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "string": {}
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_session(
+    session_id="sessionId",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateSession("sessionId", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateSession(
+	context.TODO(),
+	"sessionId",
+	&v2.UpdateSessionRequest{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X PATCH https://api.getzep.com/api/v2/sessions/:sessionId \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '{
+  "metadata": {
+    "string": {}
+  }
+}'
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.update_session(
+    session_id="sessionId",
+    metadata={"key": "value"},
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.updateSession("sessionId", {
+    metadata: {
+        "key": "value"
+    }
+});
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.UpdateSession(
+	context.TODO(),
+	"sessionId",
+	&v2.UpdateSessionRequest{
+		Metadata: map[string]interface{}{
+			"key": "value",
+		},
+	},
+)
+
+```

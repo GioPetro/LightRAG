@@ -1,0 +1,165 @@
+# Synthesize a question
+
+```http
+GET https://api.getzep.com/api/v2/sessions/{sessionId}/synthesize_question
+```
+
+Deprecated API: Synthesize a question from the last N messages in the chat history.
+
+
+
+## Path Parameters
+
+- SessionId (required): The ID of the session.
+
+## Query Parameters
+
+- LastNMessages (optional): The number of messages to use for question synthesis.
+
+## Response Body
+
+- 200: The synthesized question.
+- 404: Not Found
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl https://api.getzep.com/api/v2/sessions/sessionId/synthesize_question \
+     -H "Authorization: Api-Key <apiKey>"
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.synthesize_question(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.synthesizeQuestion("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.SynthesizeQuestion(
+	context.TODO(),
+	"sessionId",
+	&v2.MemorySynthesizeQuestionRequest{},
+)
+
+```
+
+```shell
+curl -G https://api.getzep.com/api/v2/sessions/:sessionId/synthesize_question \
+     -H "Authorization: Api-Key <apiKey>" \
+     -d lastNMessages=0
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.synthesize_question(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.synthesizeQuestion("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.SynthesizeQuestion(
+	context.TODO(),
+	"sessionId",
+	&v2.MemorySynthesizeQuestionRequest{},
+)
+
+```
+
+```shell
+curl -G https://api.getzep.com/api/v2/sessions/:sessionId/synthesize_question \
+     -H "Authorization: Api-Key <apiKey>" \
+     -d lastNMessages=0
+```
+
+```python
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.memory.synthesize_question(
+    session_id="sessionId",
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.memory.synthesizeQuestion("sessionId");
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Memory.SynthesizeQuestion(
+	context.TODO(),
+	"sessionId",
+	&v2.MemorySynthesizeQuestionRequest{},
+)
+
+```

@@ -1,0 +1,89 @@
+# Reading Data from the Graph
+
+Zep provides APIs to read Edges, Nodes, and Episodes from the graph. These elements can be retrieved individually using their `UUID`, or as lists associated with a specific `user_id` or `group_id`. The latter method returns all objects within the user's or group's graph.
+
+Examples of each retrieval method are provided below.
+
+## Reading Edges
+
+<Tabs group="node-get">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    edge = client.graph.edge.get(edge_uuid)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const edge = client.graph.edge.get(edge_uuid);
+    ```
+  </Tab>
+</Tabs>
+
+## Reading Nodes
+
+<Tabs group="edge-get">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    node = client.graph.node.get_by_user(user_uuid)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const node = client.graph.node.get_by_user(user_uuid);
+    ```
+  </Tab>
+</Tabs>
+
+## Reading Episodes
+
+<Tabs group="episode-get">
+  <Tab title="Python" group-key="python">
+    ```python
+    from zep_cloud.client import Zep
+
+    client = Zep(
+        api_key=API_KEY,
+    )
+
+    episode = client.graph.episode.get_by_group(group_uuid)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript" group-key="ts">
+    ```typescript
+    import { ZepClient } from "@getzep/zep-cloud";
+
+    const client = new ZepClient({
+      apiKey: API_KEY,
+    });
+
+    const episode = client.graph.episode.get_by_group(group_uuid);
+    ```
+  </Tab>
+</Tabs>

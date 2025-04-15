@@ -1,0 +1,279 @@
+# Creates Multiple Documents in a DocumentCollection
+
+```http
+POST https://api.getzep.com/api/v2/collections/{collectionName}/documents
+Content-Type: application/json
+```
+
+Creates Documents in a specified DocumentCollection and returns their UUIDs.
+
+
+
+## Path Parameters
+
+- CollectionName (required): Name of the Document Collection
+
+## Response Body
+
+- 200: OK
+- 400: Bad Request
+- 401: Unauthorized
+- 500: Internal Server Error
+
+## Examples
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/collectionName/documents \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "content": "content"
+  }
+]'
+```
+
+```python
+from zep_cloud import CreateDocumentRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.add_documents(
+    collection_name="collectionName",
+    request=[
+        CreateDocumentRequest(
+            content="content",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.addDocuments("collectionName", [{
+        content: "content"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.AddDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.CreateDocumentRequest{
+		&v2.CreateDocumentRequest{
+			Content: "content",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/:collectionName/documents \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "content": "string"
+  }
+]'
+```
+
+```python
+from zep_cloud import CreateDocumentRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.add_documents(
+    collection_name="collectionName",
+    request=[
+        CreateDocumentRequest(
+            content="content",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.addDocuments("collectionName", [{
+        content: "content"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.AddDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.CreateDocumentRequest{
+		&v2.CreateDocumentRequest{
+			Content: "content",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/:collectionName/documents \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "content": "string"
+  }
+]'
+```
+
+```python
+from zep_cloud import CreateDocumentRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.add_documents(
+    collection_name="collectionName",
+    request=[
+        CreateDocumentRequest(
+            content="content",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.addDocuments("collectionName", [{
+        content: "content"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.AddDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.CreateDocumentRequest{
+		&v2.CreateDocumentRequest{
+			Content: "content",
+		},
+	},
+)
+
+```
+
+```shell
+curl -X POST https://api.getzep.com/api/v2/collections/:collectionName/documents \
+     -H "Authorization: Api-Key <apiKey>" \
+     -H "Content-Type: application/json" \
+     -d '[
+  {
+    "content": "string"
+  }
+]'
+```
+
+```python
+from zep_cloud import CreateDocumentRequest
+from zep_cloud.client import Zep
+
+client = Zep(
+    api_key="YOUR_API_KEY",
+)
+client.document.add_documents(
+    collection_name="collectionName",
+    request=[
+        CreateDocumentRequest(
+            content="content",
+        )
+    ],
+)
+
+```
+
+```typescript
+import { ZepClient } from "zep-cloud";
+
+const client = new ZepClient({ apiKey: "YOUR_API_KEY" });
+await client.document.addDocuments("collectionName", [{
+        content: "content"
+    }]);
+
+```
+
+```go
+import (
+	context "context"
+	option "github.com/getzep/zep-go/v2/option"
+	v2 "github.com/getzep/zep-go/v2"
+	v2client "github.com/getzep/zep-go/v2/client"
+)
+
+client := v2client.NewClient(
+	option.WithAPIKey(
+		"<YOUR_APIKey>",
+	),
+)
+response, err := client.Document.AddDocuments(
+	context.TODO(),
+	"collectionName",
+	[]*v2.CreateDocumentRequest{
+		&v2.CreateDocumentRequest{
+			Content: "content",
+		},
+	},
+)
+
+```
